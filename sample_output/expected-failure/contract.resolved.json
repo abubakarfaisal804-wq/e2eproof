@@ -1,0 +1,157 @@
+{
+  "base_url": "http://127.0.0.1:8765",
+  "browser": {
+    "channel": null,
+    "color_scheme": "light",
+    "engine": "chromium",
+    "executable_path": null,
+    "headless": true,
+    "ignore_https_errors": false,
+    "locale": "en-US",
+    "timezone_id": null,
+    "user_agent": null,
+    "viewport_height": 720,
+    "viewport_width": 1280
+  },
+  "description": null,
+  "evidence": {
+    "allow_sensitive_artifacts": false,
+    "include_console": true,
+    "include_network": true,
+    "include_page_html": false,
+    "include_response_bodies": false,
+    "max_response_body_bytes": 65536,
+    "output_dir": "evidence",
+    "screenshot": "never",
+    "sign_key": "/tmp/e2eproof-sample-keys/e2eproof-private.pem",
+    "trace": "never"
+  },
+  "flows": [
+    {
+      "claim": "This fixture intentionally expects two records after creating one.",
+      "description": null,
+      "id": "wrong-count",
+      "retries": null,
+      "steps": [
+        {
+          "assertions": {
+            "body_contains": null,
+            "body_matches": null,
+            "body_not_contains": null,
+            "header_contains": {},
+            "header_equals": {},
+            "json_assertions": [],
+            "max_duration_ms": null,
+            "status": 200
+          },
+          "body": null,
+          "continue_on_failure": false,
+          "evidence": "auto",
+          "headers": {},
+          "id": null,
+          "json_body": {},
+          "method": "POST",
+          "name": null,
+          "params": {},
+          "save_json_as": null,
+          "timeout_ms": null,
+          "type": "http.request",
+          "url": "/api/reset"
+        },
+        {
+          "assertions": {
+            "body_contains": null,
+            "body_matches": null,
+            "body_not_contains": null,
+            "header_contains": {},
+            "header_equals": {},
+            "json_assertions": [],
+            "max_duration_ms": null,
+            "status": 201
+          },
+          "body": null,
+          "continue_on_failure": false,
+          "evidence": "auto",
+          "headers": {},
+          "id": null,
+          "json_body": {
+            "email": "{{email}}"
+          },
+          "method": "POST",
+          "name": null,
+          "params": {},
+          "save_json_as": null,
+          "timeout_ms": null,
+          "type": "http.request",
+          "url": "/api/leads"
+        },
+        {
+          "assertions": {
+            "body_contains": null,
+            "body_matches": null,
+            "body_not_contains": null,
+            "header_contains": {},
+            "header_equals": {},
+            "json_assertions": [
+              {
+                "contains": null,
+                "equals": 2,
+                "exists": null,
+                "matches": null,
+                "not_equals": null,
+                "path": "$.count"
+              }
+            ],
+            "max_duration_ms": null,
+            "status": 200
+          },
+          "body": null,
+          "continue_on_failure": false,
+          "evidence": "auto",
+          "headers": {},
+          "id": null,
+          "interval_ms": 100,
+          "json_body": null,
+          "method": "GET",
+          "name": null,
+          "params": {},
+          "poll_timeout_ms": 500,
+          "save_json_as": null,
+          "timeout_ms": null,
+          "type": "http.poll",
+          "url": "/api/leads?email={{email}}"
+        }
+      ],
+      "tags": []
+    }
+  ],
+  "name": "Intentional wrong-count failure",
+  "policy": {
+    "allowed_hosts": [
+      "127.0.0.1",
+      "localhost"
+    ],
+    "allowed_schemes": [
+      "http",
+      "https"
+    ],
+    "console_error_ignore": [],
+    "enforce_browser_host_allowlist": true,
+    "fail_on_console_error": true,
+    "fail_on_flaky": false,
+    "fail_on_page_error": true,
+    "fail_on_request_failure": true,
+    "forbidden_network_markers": [],
+    "forbidden_visible_markers": [],
+    "navigation_timeout_ms": 30000,
+    "redact_patterns": [],
+    "request_failure_ignore": [],
+    "retries": 0,
+    "timeout_ms": 3000
+  },
+  "secrets": {},
+  "variables": {
+    "email": "wrong+{{run_id}}@example.com"
+  },
+  "version": 1
+}

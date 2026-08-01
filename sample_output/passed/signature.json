@@ -1,0 +1,7 @@
+{
+  "algorithm": "ed25519",
+  "manifest_sha256": "99ca3dac00de9ad37db845d81bffa00534f3ea4629b3d698523a19bf392d5693",
+  "public_key_base64": "ME2+uQk1TlBNXUy99q9JYkcZBUcxqioaFy9GyCi/v1s=",
+  "schema_version": 1,
+  "signature_base64": "vdYfON886Bf3MuKJz5HLWtMtIWPKaIOHaukkL8fnQ1Cb4TfqNWdp8Zk5NGz42GNUUcJ8NT1afy+BZJJSs+o0CA=="
+}

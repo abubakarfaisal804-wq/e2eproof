@@ -1,0 +1,68 @@
+name: browser matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  real-navigation:
+    name: ${{ matrix.os }} / ${{ matrix.browser }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        browser: [chromium, firefox, webkit]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --no-build-isolation -e ".[dev]"
+      - name: Install browser on Linux
+        if: runner.os == 'Linux'
+        run: e2eproof install-browser ${{ matrix.browser }} --with-deps
+      - name: Install browser on Windows or macOS
+        if: runner.os != 'Linux'
+        run: e2eproof install-browser ${{ matrix.browser }}
+      - name: Doctor
+        run: e2eproof doctor --browser ${{ matrix.browser }}
+      - name: Real browser-to-backend proof
+        run: >-
+          e2eproof demo
+          --browser ${{ matrix.browser }}
+          --output evidence
+          --no-open
+          --json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: evidence-${{ matrix.os }}-${{ matrix.browser }}
+          path: evidence
+          if-no-files-found: warn
+          retention-days: 7
+
+  browser-gate:
+    name: browser-gate
+    if: always()
+    needs: [real-navigation]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce browser matrix
+        shell: bash
+        run: test "${{ needs.real-navigation.result }}" = "success"

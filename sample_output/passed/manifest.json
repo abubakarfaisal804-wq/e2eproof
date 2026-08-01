@@ -1,0 +1,48 @@
+{
+  "created_at": "2026-08-01T16:48:36.147125Z",
+  "event_chain_head": "afc9fc620c8ae40a6d563f27e3343190190a89a2679d23737cd10ff5d938dadf",
+  "files": [
+    {
+      "bytes": 931,
+      "path": "contract.original.yaml",
+      "sha256": "40617f5c25c26fa83bc0fed9617a6d6fceeedaf17a464d6ff9c555dbde64d8e9"
+    },
+    {
+      "bytes": 4407,
+      "path": "contract.resolved.json",
+      "sha256": "766fb0654258640a4229c4845df00999002803c836f929aa2a83d90161dfc942"
+    },
+    {
+      "bytes": 3392,
+      "path": "events.jsonl",
+      "sha256": "e9d3c641c5a95ef152a18983e48931fde4d6527c2886cadfb2a8dfa10bde332e"
+    },
+    {
+      "bytes": 2,
+      "path": "flows/api-exact-once/attempt-1/console.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "bytes": 2,
+      "path": "flows/api-exact-once/attempt-1/network.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "bytes": 217,
+      "path": "junit.xml",
+      "sha256": "5d3b56070e64d24f5bd0897d07fb4a9355b3e85b525e98eb1d4f8225d8b8a99c"
+    },
+    {
+      "bytes": 4927,
+      "path": "report.html",
+      "sha256": "70165da874338b324e1d43fae6e5758b166ca8edbe4124d8140591ad50606bec"
+    },
+    {
+      "bytes": 3401,
+      "path": "result.json",
+      "sha256": "f3ef04a1578760b181a447198231da187ae16e77875fdf497e308bc782c71f9a"
+    }
+  ],
+  "hash_algorithm": "sha256",
+  "schema_version": 1
+}

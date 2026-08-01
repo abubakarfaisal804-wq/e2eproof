@@ -1,0 +1,14 @@
+include LICENSE README.md README_NL.md RELEASE_STATUS_NL.md START_HIER.txt CHANGELOG.md SECURITY.md action.yml
+include CONTRIBUTING.md CODE_OF_CONDUCT.md SUPPORT.md RELEASE_SETUP.md RELEASE_NOTES_v0.2.0.md
+include Dockerfile .dockerignore
+include START_HIER_WINDOWS.bat setup_windows.bat run_demo_windows.bat run_failure_matrix_windows.bat
+include setup_unix.sh run_demo.sh requirements.txt requirements-dev.txt
+recursive-include docs *
+recursive-include examples *.yaml
+recursive-include demo *.py
+recursive-include site *
+recursive-include tests *.py
+recursive-include .github *.yml *.yaml *.md
+recursive-include scripts *.py *.ps1
+prune evidence
+prune test-evidence

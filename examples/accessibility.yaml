@@ -1,0 +1,16 @@
+version: 1
+name: Detect baseline accessibility failures
+base_url: http://127.0.0.1:8765
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 5000
+  fail_on_console_error: true
+  fail_on_page_error: true
+  fail_on_request_failure: true
+evidence: {output_dir: evidence, screenshot: failure, trace: failure}
+flows:
+  - id: accessible-form
+    claim: The lead form has a document language, title and accessible control names.
+    steps:
+      - {type: browser.goto, url: /app/inaccessible}
+      - {type: browser.audit_accessibility, maximum_violations: 0}

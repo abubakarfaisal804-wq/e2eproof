@@ -1,0 +1,2730 @@
+{
+  "$defs": {
+    "BrowserAccessibilityStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "maximum_violations": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Maximum Violations",
+          "type": "integer"
+        },
+        "require_button_names": {
+          "default": true,
+          "title": "Require Button Names",
+          "type": "boolean"
+        },
+        "require_control_names": {
+          "default": true,
+          "title": "Require Control Names",
+          "type": "boolean"
+        },
+        "require_html_lang": {
+          "default": true,
+          "title": "Require Html Lang",
+          "type": "boolean"
+        },
+        "require_image_alt": {
+          "default": true,
+          "title": "Require Image Alt",
+          "type": "boolean"
+        },
+        "require_title": {
+          "default": true,
+          "title": "Require Title",
+          "type": "boolean"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.audit_accessibility",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "BrowserAccessibilityStep",
+      "type": "object"
+    },
+    "BrowserAssertCountStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "equals": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equals"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_count",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "BrowserAssertCountStep",
+      "type": "object"
+    },
+    "BrowserAssertTextStep": {
+      "additionalProperties": false,
+      "properties": {
+        "contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contains"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "equals": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equals"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matches"
+        },
+        "normalize_whitespace": {
+          "default": true,
+          "title": "Normalize Whitespace",
+          "type": "boolean"
+        },
+        "not_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Not Contains"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_text",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "BrowserAssertTextStep",
+      "type": "object"
+    },
+    "BrowserAssertUrlStep": {
+      "additionalProperties": false,
+      "properties": {
+        "contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contains"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "equals": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equals"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matches"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_url",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "BrowserAssertUrlStep",
+      "type": "object"
+    },
+    "BrowserAssertValueStep": {
+      "additionalProperties": false,
+      "properties": {
+        "contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contains"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "equals": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equals"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matches"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_value",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "BrowserAssertValueStep",
+      "type": "object"
+    },
+    "BrowserAssertVisibleStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_visible",
+          "title": "Type",
+          "type": "string"
+        },
+        "visible": {
+          "default": true,
+          "title": "Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "BrowserAssertVisibleStep",
+      "type": "object"
+    },
+    "BrowserCheckStep": {
+      "additionalProperties": false,
+      "properties": {
+        "checked": {
+          "default": true,
+          "title": "Checked",
+          "type": "boolean"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.check",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "BrowserCheckStep",
+      "type": "object"
+    },
+    "BrowserClickStep": {
+      "additionalProperties": false,
+      "properties": {
+        "button": {
+          "default": "left",
+          "enum": [
+            "left",
+            "right",
+            "middle"
+          ],
+          "title": "Button",
+          "type": "string"
+        },
+        "click_count": {
+          "default": 1,
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Click Count",
+          "type": "integer"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.click",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target"
+      ],
+      "title": "BrowserClickStep",
+      "type": "object"
+    },
+    "BrowserConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel"
+        },
+        "color_scheme": {
+          "default": "light",
+          "enum": [
+            "light",
+            "dark",
+            "no-preference"
+          ],
+          "title": "Color Scheme",
+          "type": "string"
+        },
+        "engine": {
+          "default": "chromium",
+          "enum": [
+            "chromium",
+            "firefox",
+            "webkit"
+          ],
+          "title": "Engine",
+          "type": "string"
+        },
+        "executable_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Executable Path"
+        },
+        "headless": {
+          "default": true,
+          "title": "Headless",
+          "type": "boolean"
+        },
+        "ignore_https_errors": {
+          "default": false,
+          "title": "Ignore Https Errors",
+          "type": "boolean"
+        },
+        "locale": {
+          "default": "en-US",
+          "title": "Locale",
+          "type": "string"
+        },
+        "timezone_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timezone Id"
+        },
+        "user_agent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "User Agent"
+        },
+        "viewport_height": {
+          "default": 720,
+          "maximum": 4320,
+          "minimum": 240,
+          "title": "Viewport Height",
+          "type": "integer"
+        },
+        "viewport_width": {
+          "default": 1280,
+          "maximum": 7680,
+          "minimum": 320,
+          "title": "Viewport Width",
+          "type": "integer"
+        }
+      },
+      "title": "BrowserConfig",
+      "type": "object"
+    },
+    "BrowserExtractStep": {
+      "additionalProperties": false,
+      "properties": {
+        "attribute": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attribute"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.extract",
+          "title": "Type",
+          "type": "string"
+        },
+        "variable": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$",
+          "title": "Variable",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "variable"
+      ],
+      "title": "BrowserExtractStep",
+      "type": "object"
+    },
+    "BrowserFillStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.fill",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "value"
+      ],
+      "title": "BrowserFillStep",
+      "type": "object"
+    },
+    "BrowserGotoStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.goto",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "wait_until": {
+          "default": "load",
+          "enum": [
+            "commit",
+            "domcontentloaded",
+            "load",
+            "networkidle"
+          ],
+          "title": "Wait Until",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "url"
+      ],
+      "title": "BrowserGotoStep",
+      "type": "object"
+    },
+    "BrowserPerformanceStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "max_dom_content_loaded_ms": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Dom Content Loaded Ms"
+        },
+        "max_load_ms": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Load Ms"
+        },
+        "max_transfer_bytes": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Transfer Bytes"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.assert_performance",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "BrowserPerformanceStep",
+      "type": "object"
+    },
+    "BrowserPressStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.press",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "key"
+      ],
+      "title": "BrowserPressStep",
+      "type": "object"
+    },
+    "BrowserScreenshotStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "full_page": {
+          "default": true,
+          "title": "Full Page",
+          "type": "boolean"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.screenshot",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "title": "BrowserScreenshotStep",
+      "type": "object"
+    },
+    "BrowserSelectStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            }
+          ],
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.select",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "type",
+        "target",
+        "value"
+      ],
+      "title": "BrowserSelectStep",
+      "type": "object"
+    },
+    "BrowserWaitStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "milliseconds": {
+          "anyOf": [
+            {
+              "maximum": 60000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Milliseconds"
+        },
+        "state": {
+          "default": "visible",
+          "enum": [
+            "attached",
+            "detached",
+            "visible",
+            "hidden"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/LocatorSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "browser.wait",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "BrowserWaitStep",
+      "type": "object"
+    },
+    "EvidenceConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_sensitive_artifacts": {
+          "default": false,
+          "title": "Allow Sensitive Artifacts",
+          "type": "boolean"
+        },
+        "include_console": {
+          "default": true,
+          "title": "Include Console",
+          "type": "boolean"
+        },
+        "include_network": {
+          "default": true,
+          "title": "Include Network",
+          "type": "boolean"
+        },
+        "include_page_html": {
+          "default": false,
+          "title": "Include Page Html",
+          "type": "boolean"
+        },
+        "include_response_bodies": {
+          "default": false,
+          "title": "Include Response Bodies",
+          "type": "boolean"
+        },
+        "max_response_body_bytes": {
+          "default": 65536,
+          "maximum": 5000000,
+          "minimum": 0,
+          "title": "Max Response Body Bytes",
+          "type": "integer"
+        },
+        "output_dir": {
+          "default": "evidence",
+          "title": "Output Dir",
+          "type": "string"
+        },
+        "screenshot": {
+          "default": "failure",
+          "enum": [
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Screenshot",
+          "type": "string"
+        },
+        "sign_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sign Key"
+        },
+        "trace": {
+          "default": "failure",
+          "enum": [
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Trace",
+          "type": "string"
+        }
+      },
+      "title": "EvidenceConfig",
+      "type": "object"
+    },
+    "Flow": {
+      "additionalProperties": false,
+      "properties": {
+        "claim": {
+          "maxLength": 500,
+          "minLength": 5,
+          "title": "Claim",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "retries": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retries"
+        },
+        "steps": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "browser.assert_count": "#/$defs/BrowserAssertCountStep",
+                "browser.assert_performance": "#/$defs/BrowserPerformanceStep",
+                "browser.assert_text": "#/$defs/BrowserAssertTextStep",
+                "browser.assert_url": "#/$defs/BrowserAssertUrlStep",
+                "browser.assert_value": "#/$defs/BrowserAssertValueStep",
+                "browser.assert_visible": "#/$defs/BrowserAssertVisibleStep",
+                "browser.audit_accessibility": "#/$defs/BrowserAccessibilityStep",
+                "browser.check": "#/$defs/BrowserCheckStep",
+                "browser.click": "#/$defs/BrowserClickStep",
+                "browser.extract": "#/$defs/BrowserExtractStep",
+                "browser.fill": "#/$defs/BrowserFillStep",
+                "browser.goto": "#/$defs/BrowserGotoStep",
+                "browser.press": "#/$defs/BrowserPressStep",
+                "browser.screenshot": "#/$defs/BrowserScreenshotStep",
+                "browser.select": "#/$defs/BrowserSelectStep",
+                "browser.wait": "#/$defs/BrowserWaitStep",
+                "http.poll": "#/$defs/HttpPollStep",
+                "http.request": "#/$defs/HttpRequestStep",
+                "network.assert": "#/$defs/NetworkAssertStep",
+                "set.variable": "#/$defs/SetVariableStep"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/BrowserGotoStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserFillStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserClickStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserPressStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserSelectStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserCheckStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserWaitStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAssertTextStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAssertVisibleStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAssertUrlStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAssertValueStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAssertCountStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserScreenshotStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserExtractStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserAccessibilityStep"
+              },
+              {
+                "$ref": "#/$defs/BrowserPerformanceStep"
+              },
+              {
+                "$ref": "#/$defs/NetworkAssertStep"
+              },
+              {
+                "$ref": "#/$defs/HttpRequestStep"
+              },
+              {
+                "$ref": "#/$defs/HttpPollStep"
+              },
+              {
+                "$ref": "#/$defs/SetVariableStep"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Steps",
+          "type": "array"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "claim",
+        "steps"
+      ],
+      "title": "Flow",
+      "type": "object"
+    },
+    "HttpAssertions": {
+      "additionalProperties": false,
+      "properties": {
+        "body_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Contains"
+        },
+        "body_matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Matches"
+        },
+        "body_not_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Not Contains"
+        },
+        "header_contains": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Header Contains",
+          "type": "object"
+        },
+        "header_equals": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Header Equals",
+          "type": "object"
+        },
+        "json": {
+          "items": {
+            "$ref": "#/$defs/JsonAssertion"
+          },
+          "title": "Json",
+          "type": "array"
+        },
+        "max_duration_ms": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Duration Ms"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        }
+      },
+      "title": "HttpAssertions",
+      "type": "object"
+    },
+    "HttpPollStep": {
+      "additionalProperties": false,
+      "properties": {
+        "assertions": {
+          "$ref": "#/$defs/HttpAssertions"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "object"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "interval_ms": {
+          "default": 500,
+          "maximum": 30000,
+          "minimum": 50,
+          "title": "Interval Ms",
+          "type": "integer"
+        },
+        "json_body": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Json Body"
+        },
+        "method": {
+          "default": "GET",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "HEAD",
+            "OPTIONS"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "poll_timeout_ms": {
+          "default": 10000,
+          "maximum": 300000,
+          "minimum": 100,
+          "title": "Poll Timeout Ms",
+          "type": "integer"
+        },
+        "save_json_as": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Save Json As"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "http.poll",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "url"
+      ],
+      "title": "HttpPollStep",
+      "type": "object"
+    },
+    "HttpRequestStep": {
+      "additionalProperties": false,
+      "properties": {
+        "assertions": {
+          "$ref": "#/$defs/HttpAssertions"
+        },
+        "body": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "headers": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Headers",
+          "type": "object"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "json_body": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Json Body"
+        },
+        "method": {
+          "default": "GET",
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "HEAD",
+            "OPTIONS"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Params",
+          "type": "object"
+        },
+        "save_json_as": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Save Json As"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "http.request",
+          "title": "Type",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "url"
+      ],
+      "title": "HttpRequestStep",
+      "type": "object"
+    },
+    "JsonAssertion": {
+      "additionalProperties": false,
+      "properties": {
+        "contains": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contains"
+        },
+        "equals": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Equals"
+        },
+        "exists": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exists"
+        },
+        "matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Matches"
+        },
+        "not_equals": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Not Equals"
+        },
+        "path": {
+          "pattern": "^\\$($|\\.)",
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "JsonAssertion",
+      "type": "object"
+    },
+    "LocatorSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "css": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Css"
+        },
+        "exact": {
+          "default": false,
+          "title": "Exact",
+          "type": "boolean"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "nth": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nth"
+        },
+        "placeholder": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Placeholder"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "test_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Test Id"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        }
+      },
+      "title": "LocatorSpec",
+      "type": "object"
+    },
+    "NetworkAssertStep": {
+      "additionalProperties": false,
+      "properties": {
+        "body_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Contains"
+        },
+        "body_not_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Body Not Contains"
+        },
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "kind": {
+          "default": "either",
+          "enum": [
+            "request",
+            "response",
+            "either"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Method"
+        },
+        "minimum": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Minimum",
+          "type": "integer"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "maximum": 599,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "network.assert",
+          "title": "Type",
+          "type": "string"
+        },
+        "url_contains": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url Contains"
+        },
+        "url_matches": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url Matches"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "NetworkAssertStep",
+      "type": "object"
+    },
+    "PolicyConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_hosts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Hosts",
+          "type": "array"
+        },
+        "allowed_schemes": {
+          "items": {
+            "enum": [
+              "http",
+              "https"
+            ],
+            "type": "string"
+          },
+          "title": "Allowed Schemes",
+          "type": "array"
+        },
+        "console_error_ignore": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Console Error Ignore",
+          "type": "array"
+        },
+        "enforce_browser_host_allowlist": {
+          "default": true,
+          "title": "Enforce Browser Host Allowlist",
+          "type": "boolean"
+        },
+        "fail_on_console_error": {
+          "default": true,
+          "title": "Fail On Console Error",
+          "type": "boolean"
+        },
+        "fail_on_flaky": {
+          "default": false,
+          "title": "Fail On Flaky",
+          "type": "boolean"
+        },
+        "fail_on_page_error": {
+          "default": true,
+          "title": "Fail On Page Error",
+          "type": "boolean"
+        },
+        "fail_on_request_failure": {
+          "default": true,
+          "title": "Fail On Request Failure",
+          "type": "boolean"
+        },
+        "forbidden_network_markers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden Network Markers",
+          "type": "array"
+        },
+        "forbidden_visible_markers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden Visible Markers",
+          "type": "array"
+        },
+        "navigation_timeout_ms": {
+          "default": 30000,
+          "maximum": 300000,
+          "minimum": 100,
+          "title": "Navigation Timeout Ms",
+          "type": "integer"
+        },
+        "redact_patterns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Redact Patterns",
+          "type": "array"
+        },
+        "request_failure_ignore": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Request Failure Ignore",
+          "type": "array"
+        },
+        "retries": {
+          "default": 0,
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Retries",
+          "type": "integer"
+        },
+        "timeout_ms": {
+          "default": 10000,
+          "maximum": 300000,
+          "minimum": 100,
+          "title": "Timeout Ms",
+          "type": "integer"
+        }
+      },
+      "title": "PolicyConfig",
+      "type": "object"
+    },
+    "SecretRef": {
+      "additionalProperties": false,
+      "properties": {
+        "env": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+          "title": "Env",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "env"
+      ],
+      "title": "SecretRef",
+      "type": "object"
+    },
+    "SetVariableStep": {
+      "additionalProperties": false,
+      "properties": {
+        "continue_on_failure": {
+          "default": false,
+          "title": "Continue On Failure",
+          "type": "boolean"
+        },
+        "evidence": {
+          "default": "auto",
+          "enum": [
+            "auto",
+            "always",
+            "failure",
+            "never"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "timeout_ms": {
+          "anyOf": [
+            {
+              "maximum": 300000,
+              "minimum": 100,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Ms"
+        },
+        "type": {
+          "const": "set.variable",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "variable": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$",
+          "title": "Variable",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "variable",
+        "value"
+      ],
+      "title": "SetVariableStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "base_url": {
+      "title": "Base Url",
+      "type": "string"
+    },
+    "browser": {
+      "$ref": "#/$defs/BrowserConfig"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "evidence": {
+      "$ref": "#/$defs/EvidenceConfig"
+    },
+    "flows": {
+      "items": {
+        "$ref": "#/$defs/Flow"
+      },
+      "minItems": 1,
+      "title": "Flows",
+      "type": "array"
+    },
+    "name": {
+      "maxLength": 120,
+      "minLength": 3,
+      "title": "Name",
+      "type": "string"
+    },
+    "policy": {
+      "$ref": "#/$defs/PolicyConfig"
+    },
+    "secrets": {
+      "additionalProperties": {
+        "$ref": "#/$defs/SecretRef"
+      },
+      "title": "Secrets",
+      "type": "object"
+    },
+    "variables": {
+      "additionalProperties": true,
+      "title": "Variables",
+      "type": "object"
+    },
+    "version": {
+      "default": 1,
+      "enum": [
+        1,
+        "1"
+      ],
+      "title": "Version"
+    }
+  },
+  "required": [
+    "name",
+    "base_url",
+    "flows"
+  ],
+  "title": "Contract",
+  "type": "object"
+}

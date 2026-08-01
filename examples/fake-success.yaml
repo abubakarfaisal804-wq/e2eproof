@@ -1,0 +1,29 @@
+version: 1
+name: Detect fake UI success
+base_url: http://127.0.0.1:8765
+variables: {email: "fake+{{run_id}}@example.com"}
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 5000
+  navigation_timeout_ms: 10000
+  fail_on_console_error: true
+  fail_on_page_error: true
+  fail_on_request_failure: true
+evidence: {output_dir: evidence, screenshot: failure, trace: failure, include_network: true}
+flows:
+  - id: fake-success-must-fail
+    claim: A visible success message must be backed by one persisted lead.
+    steps:
+      - {type: http.request, method: POST, url: /api/reset, json_body: {}, assertions: {status: 200}}
+      - {type: browser.goto, url: /app/fake-success}
+      - {type: browser.fill, target: {label: Email}, value: "{{email}}"}
+      - {type: browser.click, target: {role: button, name: Submit lead}}
+      - {type: browser.assert_text, target: "#status", contains: Saved}
+      - type: http.poll
+        method: GET
+        url: /api/leads?email={{email}}
+        poll_timeout_ms: 600
+        interval_ms: 100
+        assertions:
+          status: 200
+          json: [{path: $.count, equals: 1}]

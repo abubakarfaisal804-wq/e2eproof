@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E2EProof report — Intentional wrong-count failure</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1b2d;--text:#ecf3fb;--muted:#9fb0c4;--line:#22364e;--pass:#33d17a;--fail:#ff6b6b;--flaky:#ffbf47;--skip:#8b9aae}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+main{width:min(1200px,calc(100% - 32px));margin:0 auto;padding:44px 0 80px}h1{font-size:clamp(2rem,5vw,4rem);letter-spacing:-.05em;margin:.2em 0}h2{margin:0;font-size:1.2rem}p{color:var(--muted)}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{white-space:pre-wrap;word-break:break-word;background:#06101d;padding:14px;border-radius:10px;max-height:420px;overflow:auto}
+.hero{border:1px solid var(--line);background:linear-gradient(145deg,#0f233a,#0a1727);padding:30px;border-radius:24px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:20px;color:var(--muted)}.meta b{color:var(--text)}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:24px 0}.metric{border:1px solid var(--line);background:var(--panel);padding:18px;border-radius:16px}.metric strong{display:block;font-size:1.8rem}.metric span{color:var(--muted)}
+.flow{border:1px solid var(--line);background:var(--panel);padding:20px;border-radius:20px;margin:16px 0}.flow.pass{border-left:5px solid var(--pass)}.flow.fail{border-left:5px solid var(--fail)}.flow.flaky{border-left:5px solid var(--flaky)}
+.flow-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.pill{display:inline-block;padding:4px 9px;border-radius:999px;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.pill.pass{background:#143d2b;color:#8ff0b8}.pill.fail{background:#471d25;color:#ffadb2}.pill.flaky{background:#493819;color:#ffd98c}.pill.skip{background:#273240;color:#c3ceda}
+details{border-top:1px solid var(--line);margin-top:14px;padding-top:13px}summary{cursor:pointer;font-weight:700}.table-wrap{overflow:auto;margin-top:12px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{padding:11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.08em}a{color:#7cc4ff}ul{color:var(--muted)}
+</style></head>
+<body><main>
+<section class="hero">
+<div class="pill fail">failed</div>
+<h1>Intentional wrong-count failure</h1>
+<p>Contract-to-outcome verification report. A pass means every configured claim check passed under the recorded environment; it is not a proof of all possible behavior.</p>
+<div class="meta">
+<div><b>Run</b><br>expected-failure</div>
+<div><b>Started</b><br>2026-08-01T16:48:37.874885Z</div>
+<div><b>Duration</b><br>2463 ms</div>
+<div><b>Contract SHA-256</b><br><code>c3430aafab460013002a6c538c5ef4b744db17b416726c2ac30103888d74d7f5</code></div>
+</div></section>
+<section class="metrics"><div class="metric"><strong>1</strong><span>flows</span></div><div class="metric"><strong>0</strong><span>passed</span></div><div class="metric"><strong>1</strong><span>failed</span></div><div class="metric"><strong>0</strong><span>flaky</span></div><div class="metric"><strong>0</strong><span>skipped</span></div><div class="metric"><strong>3</strong><span>steps</span></div></section>
+
+<section class="flow fail"><div class="flow-head"><div><h2>wrong-count</h2><p>This fixture intentionally expects two records after creating one.</p></div><span class="pill fail">failed</span></div><details open><summary>Attempt 1: failed · 937 ms</summary><div class="table-wrap"><table><thead><tr><th>#</th><th>Step</th><th>Status</th><th>Time</th><th>Result</th><th>Evidence</th></tr></thead><tbody><tr><td>1</td><td><code>http.request</code></td><td><span class="pill pass">passed</span></td><td>4 ms</td><td>HTTP assertion passed<details><summary>Details</summary><pre>{
+  &quot;url&quot;: &quot;/api/reset&quot;,
+  &quot;status&quot;: 200,
+  &quot;duration_ms&quot;: 3
+}</pre></details></td><td></td></tr><tr><td>2</td><td><code>http.request</code></td><td><span class="pill pass">passed</span></td><td>2 ms</td><td>HTTP assertion passed<details><summary>Details</summary><pre>{
+  &quot;url&quot;: &quot;/api/leads&quot;,
+  &quot;status&quot;: 201,
+  &quot;duration_ms&quot;: 2
+}</pre></details></td><td></td></tr><tr><td>3</td><td><code>http.poll</code></td><td><span class="pill fail">failed</span></td><td>514 ms</td><td>HTTP poll timed out after 500 ms: JSON $.count was 1, expected 2<details><summary>Details</summary><pre>{
+  &quot;error_type&quot;: &quot;StepExecutionError&quot;,
+  &quot;url&quot;: &quot;about:blank&quot;
+}</pre></details></td><td></td></tr></tbody></table></div></details></section>
+</main></body></html>

@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="Demo API health and persistence" tests="1" failures="0" skipped="0" time="2.052"><testcase classname="e2eproof" name="api-exact-once" time="0.471" /></testsuite>

@@ -1,0 +1,97 @@
+name: Verify application outcomes with E2EProof
+description: Run deterministic browser-to-backend contracts and upload tamper-evident evidence.
+author: Faisal Abubakar
+branding:
+  icon: check-circle
+  color: green
+inputs:
+  contract:
+    description: Path to the E2EProof YAML contract.
+    required: true
+    default: e2eproof.yaml
+  output:
+    description: Evidence output directory.
+    required: false
+    default: evidence
+  python-version:
+    description: Python version used by the action.
+    required: false
+    default: "3.12"
+  browser:
+    description: Playwright browser override (chromium, firefox, or webkit).
+    required: false
+    default: chromium
+  install-browser:
+    description: Install the selected Playwright browser and Linux dependencies.
+    required: false
+    default: "true"
+  upload-evidence:
+    description: Upload the evidence bundle as a workflow artifact.
+    required: false
+    default: "true"
+  artifact-name:
+    description: Name of the uploaded evidence artifact.
+    required: false
+    default: e2eproof-evidence
+outputs:
+  exit-code:
+    description: E2EProof process exit code.
+    value: ${{ steps.run.outputs.exit_code }}
+  evidence-path:
+    description: Evidence directory produced by E2EProof.
+    value: ${{ inputs.output }}
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+        cache: pip
+
+    - name: Install E2EProof
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --no-build-isolation "$GITHUB_ACTION_PATH"
+
+    - name: Install selected browser
+      if: ${{ inputs.install-browser == 'true' }}
+      shell: bash
+      env:
+        E2EPROOF_BROWSER: ${{ inputs.browser }}
+      run: |
+        if [ "$RUNNER_OS" = "Linux" ]; then
+          e2eproof install-browser "$E2EPROOF_BROWSER" --with-deps
+        else
+          e2eproof install-browser "$E2EPROOF_BROWSER"
+        fi
+
+    - name: Run outcome contract
+      id: run
+      shell: bash
+      env:
+        E2EPROOF_CONTRACT: ${{ inputs.contract }}
+        E2EPROOF_OUTPUT: ${{ inputs.output }}
+        E2EPROOF_BROWSER: ${{ inputs.browser }}
+      run: |
+        set +e
+        e2eproof run "$E2EPROOF_CONTRACT" \
+          --output "$E2EPROOF_OUTPUT" \
+          --browser "$E2EPROOF_BROWSER"
+        code=$?
+        echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+        exit 0
+
+    - name: Upload evidence
+      if: ${{ always() && inputs.upload-evidence == 'true' }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ inputs.output }}
+        if-no-files-found: warn
+        retention-days: 14
+
+    - name: Enforce verification result
+      shell: bash
+      run: exit "${{ steps.run.outputs.exit_code }}"

@@ -1,0 +1,112 @@
+{
+  "contract_name": "Intentional wrong-count failure",
+  "contract_path": "examples/http-wrong-count.yaml",
+  "contract_sha256": "c3430aafab460013002a6c538c5ef4b744db17b416726c2ac30103888d74d7f5",
+  "duration_ms": 2463,
+  "environment": {
+    "browser_engine": "chromium",
+    "browser_version": "144.0.7559.96",
+    "cwd": "/mnt/data/e2eproof",
+    "e2eproof": "0.1.0",
+    "git_commit": null,
+    "os": "Linux-6.12.13-x86_64-with-glibc2.41",
+    "playwright": "1.57.0",
+    "python": "3.13.5",
+    "python_executable": "/opt/pyvenv/bin/python"
+  },
+  "finished_at": "2026-08-01T16:48:40.338097Z",
+  "flows": [
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "duration_ms": 937,
+          "failure": "step-3 (http.poll): HTTP poll timed out after 500 ms: JSON $.count was 1, expected 2",
+          "finished_at": "2026-08-01T16:48:40.127961Z",
+          "started_at": "2026-08-01T16:48:39.191235Z",
+          "status": "failed",
+          "steps": [
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "duration_ms": 3,
+                "status": 200,
+                "url": "/api/reset"
+              },
+              "duration_ms": 4,
+              "finished_at": "2026-08-01T16:48:39.583306Z",
+              "id": "step-1",
+              "index": 0,
+              "message": "HTTP assertion passed",
+              "started_at": "2026-08-01T16:48:39.579518Z",
+              "status": "passed",
+              "type": "http.request"
+            },
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "duration_ms": 2,
+                "status": 201,
+                "url": "/api/leads"
+              },
+              "duration_ms": 2,
+              "finished_at": "2026-08-01T16:48:39.585584Z",
+              "id": "step-2",
+              "index": 1,
+              "message": "HTTP assertion passed",
+              "started_at": "2026-08-01T16:48:39.583480Z",
+              "status": "passed",
+              "type": "http.request"
+            },
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "error_type": "StepExecutionError",
+                "url": "about:blank"
+              },
+              "duration_ms": 514,
+              "finished_at": "2026-08-01T16:48:40.099272Z",
+              "id": "step-3",
+              "index": 2,
+              "message": "HTTP poll timed out after 500 ms: JSON $.count was 1, expected 2",
+              "started_at": "2026-08-01T16:48:39.585726Z",
+              "status": "failed",
+              "type": "http.poll"
+            }
+          ]
+        }
+      ],
+      "claim": "This fixture intentionally expects two records after creating one.",
+      "duration_ms": 937,
+      "finished_at": "2026-08-01T16:48:40.128205Z",
+      "id": "wrong-count",
+      "started_at": "2026-08-01T16:48:39.191199Z",
+      "status": "failed",
+      "tags": []
+    }
+  ],
+  "integrity": {
+    "event_log": "events.jsonl",
+    "manifest": "manifest.json",
+    "signature": "signature.json",
+    "signed": true
+  },
+  "policy_findings": [],
+  "product": "E2EProof",
+  "product_version": "0.1.0",
+  "run_id": "expected-failure",
+  "schema_version": 1,
+  "started_at": "2026-08-01T16:48:37.874885Z",
+  "status": "failed",
+  "summary": {
+    "failed": 1,
+    "flaky": 0,
+    "flows": 1,
+    "passed": 0,
+    "skipped": 0,
+    "steps": 3
+  }
+}

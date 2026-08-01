@@ -1,0 +1,114 @@
+{
+  "contract_name": "Demo API health and persistence",
+  "contract_path": "examples/http-only.yaml",
+  "contract_sha256": "40617f5c25c26fa83bc0fed9617a6d6fceeedaf17a464d6ff9c555dbde64d8e9",
+  "duration_ms": 2052,
+  "environment": {
+    "browser_engine": "chromium",
+    "browser_version": "144.0.7559.96",
+    "cwd": "/mnt/data/e2eproof",
+    "e2eproof": "0.1.0",
+    "git_commit": null,
+    "os": "Linux-6.12.13-x86_64-with-glibc2.41",
+    "playwright": "1.57.0",
+    "python": "3.13.5",
+    "python_executable": "/opt/pyvenv/bin/python"
+  },
+  "finished_at": "2026-08-01T16:48:36.144594Z",
+  "flows": [
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "duration_ms": 471,
+          "failure": null,
+          "finished_at": "2026-08-01T16:48:35.916908Z",
+          "started_at": "2026-08-01T16:48:35.446363Z",
+          "status": "passed",
+          "steps": [
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "duration_ms": 6,
+                "status": 200,
+                "url": "/api/reset"
+              },
+              "duration_ms": 6,
+              "finished_at": "2026-08-01T16:48:35.880785Z",
+              "id": "step-1",
+              "index": 0,
+              "message": "HTTP assertion passed",
+              "started_at": "2026-08-01T16:48:35.874574Z",
+              "status": "passed",
+              "type": "http.request"
+            },
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "duration_ms": 3,
+                "status": 201,
+                "url": "/api/leads"
+              },
+              "duration_ms": 3,
+              "finished_at": "2026-08-01T16:48:35.884266Z",
+              "id": "step-2",
+              "index": 1,
+              "message": "HTTP assertion passed",
+              "started_at": "2026-08-01T16:48:35.880982Z",
+              "status": "passed",
+              "type": "http.request"
+            },
+            {
+              "artifacts": [],
+              "attempt": 1,
+              "details": {
+                "attempts": 1,
+                "duration_ms": 2,
+                "status": 200,
+                "url": "/api/leads?email=http+passed@example.com"
+              },
+              "duration_ms": 2,
+              "finished_at": "2026-08-01T16:48:35.886749Z",
+              "id": "step-3",
+              "index": 2,
+              "message": "HTTP poll assertion passed",
+              "started_at": "2026-08-01T16:48:35.884422Z",
+              "status": "passed",
+              "type": "http.poll"
+            }
+          ]
+        }
+      ],
+      "claim": "A direct API write creates exactly one readable lead.",
+      "duration_ms": 471,
+      "finished_at": "2026-08-01T16:48:35.917459Z",
+      "id": "api-exact-once",
+      "started_at": "2026-08-01T16:48:35.446328Z",
+      "status": "passed",
+      "tags": []
+    }
+  ],
+  "integrity": {
+    "event_log": "events.jsonl",
+    "manifest": "manifest.json",
+    "signature": "signature.json",
+    "signed": true
+  },
+  "policy_findings": [],
+  "product": "E2EProof",
+  "product_version": "0.1.0",
+  "run_id": "passed",
+  "schema_version": 1,
+  "started_at": "2026-08-01T16:48:34.092561Z",
+  "status": "passed",
+  "summary": {
+    "failed": 0,
+    "flaky": 0,
+    "flows": 1,
+    "passed": 1,
+    "skipped": 0,
+    "steps": 3
+  }
+}

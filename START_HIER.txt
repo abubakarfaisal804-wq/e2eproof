@@ -1,0 +1,22 @@
+E2EPROOF v0.2.0 — START HIER OP WINDOWS
+
+Lokale producttest:
+1. Pak het volledige zipbestand uit.
+2. Installeer Python 3.11 of nieuwer.
+3. Dubbelklik op START_HIER_WINDOWS.bat.
+4. De eerste keer wordt een aparte Python-omgeving gemaakt en Chromium geïnstalleerd.
+5. Daarna draait een echte browser-naar-backendtest en opent het HTML-rapport.
+
+Openbare GitHub-publicatie:
+1. Lees RELEASE_SETUP.md.
+2. Installeer Git en GitHub CLI.
+3. Voer vanuit PowerShell uit:
+   powershell -ExecutionPolicy Bypass -File scripts\publish_github.ps1 -Owner JOUW_GITHUB_NAAM
+4. Wacht tot alle GitHub Actions groen zijn.
+5. Configureer daarna TestPyPI/PyPI en publiceer pas dan de Marketplace-release.
+
+Belangrijk:
+- Dit is een public-alpha release candidate.
+- De lokale suite telt 53 geslaagde tests, 1 omgevingsgebonden skip en 85,24% coverage.
+- De volledige openbare OS/browsermatrix is voorbereid, maar nog niet uitgevoerd.
+- Er zijn nog geen externe gebruikers, betalende klanten of omzet.

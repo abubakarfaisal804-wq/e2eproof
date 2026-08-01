@@ -1,0 +1,27 @@
+version: 1
+name: Detect hidden provider fallback
+base_url: http://127.0.0.1:8765
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 5000
+  navigation_timeout_ms: 10000
+  fail_on_console_error: true
+  fail_on_page_error: true
+  fail_on_request_failure: false
+  forbidden_visible_markers: [fallback active]
+  forbidden_network_markers: [fallback active]
+evidence:
+  output_dir: evidence
+  screenshot: failure
+  trace: failure
+  include_network: true
+  include_response_bodies: true
+flows:
+  - id: provider-truth
+    claim: The application must not claim provider success while a fallback is active.
+    steps:
+      - {type: browser.goto, url: /app/fallback}
+      - {type: browser.fill, target: {label: Email}, value: test@example.com}
+      - {type: browser.click, target: {role: button, name: Submit lead}}
+      - {type: browser.wait, milliseconds: 300}
+      - {type: browser.assert_text, target: "#status", contains: "OpenAI active"}

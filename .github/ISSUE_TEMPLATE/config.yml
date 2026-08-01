@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/abubakarfaisal804-wq/e2eproof/security/advisories/new
+    about: Report vulnerabilities privately after abubakarfaisal804-wq is replaced during release setup.

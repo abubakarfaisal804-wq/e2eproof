@@ -1,0 +1,28 @@
+version: 1
+name: Detect duplicate side effects
+base_url: http://127.0.0.1:8765
+variables: {email: "duplicate+{{run_id}}@example.com"}
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 5000
+  navigation_timeout_ms: 10000
+  fail_on_console_error: true
+  fail_on_page_error: true
+  fail_on_request_failure: true
+evidence: {output_dir: evidence, screenshot: failure, trace: failure, include_network: true}
+flows:
+  - id: exactly-once
+    claim: One click creates exactly one backend record.
+    steps:
+      - {type: http.request, method: POST, url: /api/reset, json_body: {}, assertions: {status: 200}}
+      - {type: browser.goto, url: /app/duplicate}
+      - {type: browser.fill, target: {label: Email}, value: "{{email}}"}
+      - {type: browser.click, target: {role: button, name: Submit lead}}
+      - {type: browser.assert_text, target: "#status", contains: Saved}
+      - type: network.assert
+        kind: response
+        url_contains: /api/leads
+        method: POST
+        status: 201
+        minimum: 1
+        maximum: 1

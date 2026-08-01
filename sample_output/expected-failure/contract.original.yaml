@@ -1,0 +1,27 @@
+version: 1
+name: Intentional wrong-count failure
+base_url: http://127.0.0.1:8765
+variables:
+  email: wrong+{{run_id}}@example.com
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 3000
+evidence:
+  output_dir: evidence
+  screenshot: never
+  trace: never
+flows:
+  - id: wrong-count
+    claim: This fixture intentionally expects two records after creating one.
+    steps:
+      - {type: http.request, method: POST, url: /api/reset, json_body: {}, assertions: {status: 200}}
+      - {type: http.request, method: POST, url: /api/leads, json_body: {email: "{{email}}"}, assertions: {status: 201}}
+      - type: http.poll
+        method: GET
+        url: /api/leads?email={{email}}
+        poll_timeout_ms: 500
+        interval_ms: 100
+        assertions:
+          status: 200
+          json:
+            - {path: $.count, equals: 2}

@@ -1,0 +1,21 @@
+version: 1
+name: Detect flaky flow
+base_url: http://127.0.0.1:8765
+variables: {email: "flaky+{{run_id}}@example.com"}
+policy:
+  allowed_hosts: [127.0.0.1, localhost]
+  timeout_ms: 5000
+  retries: 1
+  fail_on_flaky: false
+  fail_on_console_error: true
+  fail_on_page_error: true
+  fail_on_request_failure: true
+evidence: {output_dir: evidence, screenshot: failure, trace: failure}
+flows:
+  - id: flaky-post
+    claim: A temporarily failing request is identified as flaky if a retry passes.
+    steps:
+      - {type: browser.goto, url: /app/flaky}
+      - {type: browser.fill, target: {label: Email}, value: "{{email}}"}
+      - {type: browser.click, target: {role: button, name: Submit lead}}
+      - {type: browser.assert_text, target: "#status", contains: Saved}

@@ -1,0 +1,96 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "e2eproof"
+version = "0.2.0"
+description = "Contract-to-outcome verification with tamper-evident evidence bundles for AI-built web apps"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Faisal Abubakar"}]
+keywords = ["testing", "playwright", "verification", "evidence", "ai", "e2e"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+dependencies = [
+  "pydantic>=2.10,<3",
+  "PyYAML>=6.0,<7",
+  "playwright>=1.50,<2",
+  "httpx>=0.27,<1",
+  "cryptography>=44,<47",
+]
+
+[project.urls]
+Homepage = "https://github.com/abubakarfaisal804-wq/e2eproof"
+Documentation = "https://github.com/abubakarfaisal804-wq/e2eproof#readme"
+Repository = "https://github.com/abubakarfaisal804-wq/e2eproof"
+Issues = "https://github.com/abubakarfaisal804-wq/e2eproof/issues"
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.9,<1",
+  "mypy>=1.14,<2",
+  "build>=1.2,<2",
+  "twine>=6,<7",
+]
+
+[project.scripts]
+e2eproof = "e2eproof.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+e2eproof = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+  "browser: tests that launch a real browser",
+  "integration: integration tests with the demo server",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["e2eproof"]
+concurrency = ["greenlet", "thread"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 85
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = [".venv", "dist", "build", "evidence"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "S"]
+ignore = ["S101", "S603", "S607"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106", "S108"]
+"demo/*" = ["S104"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["e2eproof"]
+warn_unused_ignores = true

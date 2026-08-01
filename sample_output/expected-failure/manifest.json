@@ -1,0 +1,48 @@
+{
+  "created_at": "2026-08-01T16:48:40.340563Z",
+  "event_chain_head": "5102dc236db8d7bd15d4ce21b930a3b0d1587c6e85cf05106c0dd4f97a15bdd0",
+  "files": [
+    {
+      "bytes": 840,
+      "path": "contract.original.yaml",
+      "sha256": "c3430aafab460013002a6c538c5ef4b744db17b416726c2ac30103888d74d7f5"
+    },
+    {
+      "bytes": 4164,
+      "path": "contract.resolved.json",
+      "sha256": "b06d50be64a10411504b36897a73c71674576459bc7a1e3112901115b13a3775"
+    },
+    {
+      "bytes": 3470,
+      "path": "events.jsonl",
+      "sha256": "4cd205b30365caa2b2647c1068b51ce536fae8f7b23c683226015a9818d3de86"
+    },
+    {
+      "bytes": 2,
+      "path": "flows/wrong-count/attempt-1/console.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "bytes": 2,
+      "path": "flows/wrong-count/attempt-1/network.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "bytes": 357,
+      "path": "junit.xml",
+      "sha256": "e49ff126cb8609639b33d520809e64fc312c0dcb9c16b82c1a675985e3a52e9e"
+    },
+    {
+      "bytes": 4936,
+      "path": "report.html",
+      "sha256": "8204c7b65af0f2d2fbd9ca5c30a370625405116e1b0bbdbc80a76ae22e0d493c"
+    },
+    {
+      "bytes": 3477,
+      "path": "result.json",
+      "sha256": "ac657ea855a73169549209b053d03f02a612544c561e99815035e44421e28cf4"
+    }
+  ],
+  "hash_algorithm": "sha256",
+  "schema_version": 1
+}

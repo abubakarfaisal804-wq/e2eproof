@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a focused verification capability.
+title: "[Feature]: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome that cannot currently be proven
+      description: Describe the real user or backend outcome, not only a preferred implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: independence
+    attributes:
+      label: Independent evidence source
+      description: How could E2EProof verify the outcome independently?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing workaround

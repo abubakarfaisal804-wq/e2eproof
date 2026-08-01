@@ -272,7 +272,8 @@ class HttpRequestStep(BaseStep):
 
 
 class HttpPollStep(HttpRequestStep):
-    type: Literal["http.poll"]
+    # Pydantic uses this narrowed field as the discriminated-union tag.
+    type: Literal["http.poll"]  # type: ignore[assignment]
     interval_ms: int = Field(default=500, ge=50, le=30_000)
     poll_timeout_ms: int = Field(default=10_000, ge=100, le=300_000)
 
@@ -349,13 +350,17 @@ class EvidenceConfig(StrictModel):
     allow_sensitive_artifacts: bool = False
 
 
+def _default_allowed_schemes() -> list[Literal["http", "https"]]:
+    return ["http", "https"]
+
+
 class PolicyConfig(StrictModel):
     timeout_ms: int = Field(default=10_000, ge=100, le=300_000)
     navigation_timeout_ms: int = Field(default=30_000, ge=100, le=300_000)
     retries: int = Field(default=0, ge=0, le=5)
     allowed_hosts: list[str] = Field(default_factory=list)
     allowed_schemes: list[Literal["http", "https"]] = Field(
-        default_factory=lambda: ["http", "https"]
+        default_factory=_default_allowed_schemes
     )
     fail_on_console_error: bool = True
     fail_on_page_error: bool = True

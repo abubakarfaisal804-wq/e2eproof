@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import platform
@@ -319,10 +320,8 @@ def _run_demo(
             print(f"Evidence: {bundle}")
             print(f"Report:   {report}")
         if result.status == "passed" and not no_open:
-            try:
+            with contextlib.suppress(webbrowser.Error):
                 webbrowser.open(report.as_uri())
-            except webbrowser.Error:
-                pass
         return 0 if result.status == "passed" else 1
     finally:
         server.shutdown()

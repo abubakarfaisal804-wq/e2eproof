@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import sys
 import threading
 import time
@@ -11,6 +12,7 @@ from urllib.request import urlopen
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
+
 
 from demo.server import serve  # noqa: E402
 from e2eproof.config import load_contract  # noqa: E402
@@ -45,10 +47,8 @@ def main() -> int:
         print(f"{result.status.upper()}: {result.contract_name}")
         print(f"Evidence: {bundle}")
         print(f"Report:   {report}")
-        try:
+        with contextlib.suppress(webbrowser.Error):
             webbrowser.open(report.as_uri())
-        except webbrowser.Error:
-            pass
         return 0 if result.status == "passed" else 1
     except (E2EProofError, RuntimeError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

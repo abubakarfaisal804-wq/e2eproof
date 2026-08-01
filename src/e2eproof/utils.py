@@ -228,8 +228,8 @@ def validate_url_allowed(
     url: str,
     *,
     base_url: str,
-    allowed_hosts: list[str],
-    allowed_schemes: list[str],
+    allowed_hosts: Sequence[str],
+    allowed_schemes: Sequence[str],
 ) -> None:
     parsed = urlparse(url)
     if parsed.scheme not in allowed_schemes:

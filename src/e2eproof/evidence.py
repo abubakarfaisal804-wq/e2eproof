@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -153,10 +154,8 @@ def generate_keypair(directory: Path, *, force: bool = False) -> tuple[Path, Pat
             format=serialization.PublicFormat.SubjectPublicKeyInfo,
         )
     )
-    try:
+    with contextlib.suppress(OSError):
         private_path.chmod(0o600)
-    except OSError:
-        pass
     return private_path, public_path
 
 

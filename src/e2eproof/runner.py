@@ -458,11 +458,10 @@ def _assert_json(assertion: JsonAssertion, payload: Any) -> None:
             matched = False
         if not matched:
             raise StepExecutionError(f"JSON {assertion.path} does not contain {expected!r}")
-    if assertion.matches is not None:
-        if re.search(assertion.matches, str(actual)) is None:
-            raise StepExecutionError(
-                f"JSON {assertion.path} value {actual!r} does not match {assertion.matches!r}"
-            )
+    if assertion.matches is not None and re.search(assertion.matches, str(actual)) is None:
+        raise StepExecutionError(
+            f"JSON {assertion.path} value {actual!r} does not match {assertion.matches!r}"
+        )
 
 
 def _assert_http(response: httpx.Response, assertions: HttpAssertions, duration_ms: int) -> None:

@@ -196,7 +196,7 @@ def test_browser_step_matrix(tmp_path: Path) -> None:
         )
         assert page.locator("#status").inner_text() == "Saved"
 
-        _, extract = run_step(
+        _, _extract = run_step(
             {"type": "browser.extract", "target": "#status", "variable": "saved_text"},
             runtime,
             c,

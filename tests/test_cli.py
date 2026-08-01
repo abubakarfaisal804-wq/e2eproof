@@ -29,12 +29,22 @@ def test_cli_run_verify_keygen_and_errors(tmp_path: Path, demo_server: str, caps
                 "name": "CLI HTTP verification",
                 "base_url": demo_server,
                 "policy": {"allowed_hosts": ["127.0.0.1", "localhost"]},
-                "evidence": {"output_dir": str(tmp_path / "evidence"), "trace": "never", "screenshot": "never"},
+                "evidence": {
+                    "output_dir": str(tmp_path / "evidence"),
+                    "trace": "never",
+                    "screenshot": "never",
+                },
                 "flows": [
                     {
                         "id": "health",
                         "claim": "The demo health endpoint responds successfully.",
-                        "steps": [{"type": "http.request", "url": "/health", "assertions": {"status": 200}}],
+                        "steps": [
+                            {
+                                "type": "http.request",
+                                "url": "/health",
+                                "assertions": {"status": 200},
+                            }
+                        ],
                     }
                 ],
             },
@@ -52,8 +62,10 @@ def test_cli_run_verify_keygen_and_errors(tmp_path: Path, demo_server: str, caps
 
 
 def test_cli_remaining_branches(tmp_path: Path, monkeypatch, capsys) -> None:
-    import yaml
     from types import SimpleNamespace
+
+    import yaml
+
     import e2eproof.cli as cli
     from e2eproof.models import Contract
 
@@ -65,7 +77,13 @@ def test_cli_remaining_branches(tmp_path: Path, monkeypatch, capsys) -> None:
                 "name": "CLI branch contract",
                 "base_url": "https://example.com",
                 "secrets": {"token": {"env": "CLI_MISSING_SECRET", "required": True}},
-                "flows": [{"id": "x", "claim": "The health endpoint works as expected.", "steps": [{"type": "http.request", "url": "/health"}]}],
+                "flows": [
+                    {
+                        "id": "x",
+                        "claim": "The health endpoint works as expected.",
+                        "steps": [{"type": "http.request", "url": "/health"}],
+                    }
+                ],
             },
             sort_keys=False,
         ),
@@ -80,10 +98,22 @@ def test_cli_remaining_branches(tmp_path: Path, monkeypatch, capsys) -> None:
     fake_bundle.mkdir()
     fake_result = SimpleNamespace(status="passed", contract_name="Fake", summary={"passed": 1})
     monkeypatch.setattr(cli, "run_contract", lambda *a, **k: (fake_result, fake_bundle))
-    assert main([
-        "run", str(contract_path), "--headed", "--browser", "firefox",
-        "--browser-path", "/browser/firefox", "--sign-key", "key.pem"
-    ]) == 0
+    assert (
+        main(
+            [
+                "run",
+                str(contract_path),
+                "--headed",
+                "--browser",
+                "firefox",
+                "--browser-path",
+                "/browser/firefox",
+                "--sign-key",
+                "key.pem",
+            ]
+        )
+        == 0
+    )
     assert "Report:" in capsys.readouterr().out
 
     generated = Contract.model_validate(
@@ -91,16 +121,35 @@ def test_cli_remaining_branches(tmp_path: Path, monkeypatch, capsys) -> None:
             "version": 1,
             "name": "Generated CLI contract",
             "base_url": "https://example.com",
-            "flows": [{"id": "x", "claim": "The endpoint provides a valid health result.", "steps": [{"type": "http.request", "url": "/health"}]}],
+            "flows": [
+                {
+                    "id": "x",
+                    "claim": "The endpoint provides a valid health result.",
+                    "steps": [{"type": "http.request", "url": "/health"}],
+                }
+            ],
         }
     )
     monkeypatch.setattr(cli, "draft_contract", lambda **kwargs: generated)
     requirements = tmp_path / "requirements.txt"
     requirements.write_text("independent read-back", encoding="utf-8")
     generated_path = tmp_path / "generated.yaml"
-    assert main([
-        "ai-draft", "--base-url", "https://example.com", "--claim", "health", "--requirements-file", str(requirements), "--output", str(generated_path)
-    ]) == 0
+    assert (
+        main(
+            [
+                "ai-draft",
+                "--base-url",
+                "https://example.com",
+                "--claim",
+                "health",
+                "--requirements-file",
+                str(requirements),
+                "--output",
+                str(generated_path),
+            ]
+        )
+        == 0
+    )
     assert generated_path.exists()
 
     monkeypatch.setattr(cli, "diagnose_result", lambda *a, **k: "# Diagnosis")
@@ -124,6 +173,7 @@ def test_browser_doctor_detects_system_browser(monkeypatch) -> None:
 
 def test_browser_doctor_detects_playwright_managed_browser(tmp_path: Path, monkeypatch) -> None:
     from types import SimpleNamespace
+
     import e2eproof.cli as cli
 
     executable = tmp_path / "chromium"
@@ -141,18 +191,23 @@ def test_browser_doctor_detects_playwright_managed_browser(tmp_path: Path, monke
     assert cli._browser_doctor_detail() == (True, str(executable))
 
 
-
 def test_cli_install_browser_demo_and_quickstart(monkeypatch, tmp_path: Path) -> None:
     import e2eproof.cli as cli
 
     installed: list[tuple[str, bool]] = []
-    monkeypatch.setattr(cli, "_install_browser", lambda engine, with_deps=False: installed.append((engine, with_deps)))
+    monkeypatch.setattr(
+        cli,
+        "_install_browser",
+        lambda engine, with_deps=False: installed.append((engine, with_deps)),
+    )
     assert main(["install-browser", "firefox", "--with-deps"]) == 0
     assert installed == [("firefox", True)]
 
     runs: list[dict[str, object]] = []
     monkeypatch.setattr(cli, "_run_demo", lambda **kwargs: runs.append(kwargs) or 0)
-    assert main(["demo", "--browser", "webkit", "--output", str(tmp_path), "--no-open", "--json"]) == 0
+    assert (
+        main(["demo", "--browser", "webkit", "--output", str(tmp_path), "--no-open", "--json"]) == 0
+    )
     assert runs[-1]["engine"] == "webkit"
     assert runs[-1]["no_open"] is True
 
@@ -165,7 +220,9 @@ def test_cli_install_browser_demo_and_quickstart(monkeypatch, tmp_path: Path) ->
 def test_doctor_supports_selected_browser(monkeypatch) -> None:
     import e2eproof.cli as cli
 
-    monkeypatch.setattr(cli, "_browser_doctor_detail", lambda engine="chromium": (True, f"/{engine}"))
+    monkeypatch.setattr(
+        cli, "_browser_doctor_detail", lambda engine="chromium": (True, f"/{engine}")
+    )
     payload = cli._doctor(None, "webkit")
     assert payload["ok"] is True
     assert payload["browser"] == "webkit"

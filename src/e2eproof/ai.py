@@ -14,7 +14,6 @@ from pydantic import ValidationError
 from .errors import AIError
 from .models import Contract
 
-
 SUPPORTED_STEPS = [
     "browser.goto",
     "browser.fill",
@@ -150,7 +149,7 @@ def draft_contract(
 Return only valid YAML. Do not claim that a UI message proves a backend side effect.
 Every material claim must be checked through an independent observable when possible,
 such as an HTTP read-back, exact network call count, persisted record, or webhook state.
-Use only these supported step types: {', '.join(SUPPORTED_STEPS)}.
+Use only these supported step types: {", ".join(SUPPORTED_STEPS)}.
 Do not include secrets or real credentials. Put secret references under secrets using env names.
 Keep allowed_hosts limited to the supplied application host. Use stable accessible locators
 (role, label, test_id) before CSS selectors. Include negative checks for mock, demo, fallback,
@@ -159,7 +158,7 @@ and false-success markers when relevant. The output must validate against E2EPro
 Base URL: {base_url}
 Outcome claim: {claim}
 Additional requirements:
-{requirements or '(none)'}
+{requirements or "(none)"}
 
 Use version 1, a descriptive name, browser defaults, strict policy gates, evidence settings,
 and at least one flow. Prefer exact-once side-effect verification over visual-only assertions.

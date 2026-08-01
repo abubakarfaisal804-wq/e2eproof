@@ -69,8 +69,8 @@ def test_bundle_missing_extra_and_bad_signature(tmp_path: Path) -> None:
 
 
 def test_evidence_validation_edge_cases(tmp_path: Path) -> None:
-    from e2eproof.evidence import load_private_key, verify_event_chain
     from e2eproof.errors import EvidenceVerificationError
+    from e2eproof.evidence import load_private_key, verify_event_chain
 
     bundle = EvidenceBundle(tmp_path / "bytes", Redactor([]))
     assert bundle.write_bytes("data.bin", b"abc") == "data.bin"

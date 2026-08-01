@@ -3,8 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 import threading
-import time
-from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
@@ -58,7 +56,9 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
         if parsed.path.startswith("/app/"):
-            self._send(200, _page(parsed.path.rsplit("/", 1)[-1]).encode(), "text/html; charset=utf-8")
+            self._send(
+                200, _page(parsed.path.rsplit("/", 1)[-1]).encode(), "text/html; charset=utf-8"
+            )
             return
         if parsed.path == "/api/leads":
             email = parse_qs(parsed.query).get("email", [None])[0]

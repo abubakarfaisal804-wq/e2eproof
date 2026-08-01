@@ -274,7 +274,9 @@ def verify_bundle(bundle_dir: Path, trusted_public_key: Path | None = None) -> V
                 )
                 trusted_key_match = trusted_raw == embedded_public_raw
                 if not trusted_key_match:
-                    raise EvidenceVerificationError("Embedded signer does not match trusted public key")
+                    raise EvidenceVerificationError(
+                        "Embedded signer does not match trusted public key"
+                    )
             public_key.verify(
                 base64.b64decode(signature_info["signature_base64"], validate=True),
                 manifest_bytes,

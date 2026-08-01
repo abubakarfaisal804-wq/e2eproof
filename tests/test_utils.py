@@ -74,7 +74,12 @@ def test_url_allowlist() -> None:
 
 def test_more_utils_branches(monkeypatch) -> None:
     from e2eproof.models import SecretRef
-    from e2eproof.utils import compile_patterns, load_secret_environment, resolve_templates, resolve_url
+    from e2eproof.utils import (
+        compile_patterns,
+        load_secret_environment,
+        resolve_templates,
+        resolve_url,
+    )
 
     assert resolve_templates(["{{x}}", {"y": "{{x}}"}], {"x": 7}) == ["7", {"y": "7"}]
     assert resolve_url("https://example.com/base", "/x") == "https://example.com/x"
@@ -87,5 +92,7 @@ def test_more_utils_branches(monkeypatch) -> None:
     monkeypatch.delenv("MISSING_X", raising=False)
     with pytest.raises(ContractError, match="missing"):
         load_secret_environment({"token": SecretRef(env="MISSING_X")})
-    values, redactions = load_secret_environment({"token": SecretRef(env="MISSING_X", required=False)})
+    values, redactions = load_secret_environment(
+        {"token": SecretRef(env="MISSING_X", required=False)}
+    )
     assert values["token"] == "" and redactions == []

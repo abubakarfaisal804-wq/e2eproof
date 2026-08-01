@@ -18,13 +18,17 @@ import httpx
 from playwright.sync_api import (
     Browser,
     BrowserContext,
-    Error as PlaywrightError,
     Locator,
     Page,
     Playwright,
-    TimeoutError as PlaywrightTimeoutError,
     expect,
     sync_playwright,
+)
+from playwright.sync_api import (
+    Error as PlaywrightError,
+)
+from playwright.sync_api import (
+    TimeoutError as PlaywrightTimeoutError,
 )
 
 from . import __version__
@@ -48,7 +52,6 @@ from .models import (
     BrowserSelectStep,
     BrowserWaitStep,
     Contract,
-    Flow,
     HttpAssertions,
     HttpPollStep,
     HttpRequestStep,
@@ -116,7 +119,9 @@ def _elapsed_ms(start: float) -> int:
     return max(0, round((time.perf_counter() - start) * 1000))
 
 
-def _resolve_variables(raw: dict[str, Any], builtins: dict[str, Any], secrets: dict[str, str]) -> dict[str, Any]:
+def _resolve_variables(
+    raw: dict[str, Any], builtins: dict[str, Any], secrets: dict[str, str]
+) -> dict[str, Any]:
     resolved = dict(raw)
     context: dict[str, Any] = {**builtins, **resolved, "secret": secrets}
     # Resolve references in a bounded loop so cycles fail clearly.
@@ -196,9 +201,13 @@ def find_browser_executable(engine: str) -> str | None:
 def _launch_browser(playwright: Playwright, contract: Contract) -> Browser:
     browser_type = getattr(playwright, contract.browser.engine)
     kwargs: dict[str, Any] = {"headless": contract.browser.headless}
-    executable = contract.browser.executable_path or find_browser_executable(contract.browser.engine)
+    executable = contract.browser.executable_path or find_browser_executable(
+        contract.browser.engine
+    )
     if contract.browser.executable_path and not Path(contract.browser.executable_path).is_file():
-        raise ContractError(f"Configured browser executable does not exist: {contract.browser.executable_path}")
+        raise ContractError(
+            f"Configured browser executable does not exist: {contract.browser.executable_path}"
+        )
     if executable:
         kwargs["executable_path"] = executable
     if contract.browser.channel:
@@ -216,7 +225,9 @@ def _launch_browser(playwright: Playwright, contract: Contract) -> Browser:
             f"Run 'e2eproof install-browser {contract.browser.engine}', configure "
             "browser.executable_path, or set E2EPROOF_BROWSER_PATH."
         )
-        raise ContractError(f"Could not launch {contract.browser.engine}: {error}\n{hint}") from error
+        raise ContractError(
+            f"Could not launch {contract.browser.engine}: {error}\n{hint}"
+        ) from error
 
 
 def _create_context(browser: Browser, contract: Contract) -> BrowserContext:
@@ -237,6 +248,7 @@ def _create_context(browser: Browser, contract: Contract) -> BrowserContext:
     context.set_default_timeout(contract.policy.timeout_ms)
     context.set_default_navigation_timeout(contract.policy.navigation_timeout_ms)
     if contract.policy.enforce_browser_host_allowlist:
+
         def enforce_allowlist(route: Any, request: Any) -> None:
             parsed = urlparse(request.url)
             if parsed.scheme in {"http", "https"}:
@@ -251,6 +263,7 @@ def _create_context(browser: Browser, contract: Contract) -> BrowserContext:
                     route.abort("blockedbyclient")
                     return
             route.continue_()
+
         context.route("**/*", enforce_allowlist)
     return context
 
@@ -383,10 +396,16 @@ def _check_policy(
         if errors:
             raise StepExecutionError("Browser console error: " + " | ".join(errors[:3]))
     if contract.policy.fail_on_page_error and len(state.page_errors) > page_error_start:
-        raise StepExecutionError("Uncaught page error: " + " | ".join(state.page_errors[page_error_start:][:3]))
-    if contract.policy.fail_on_request_failure and len(state.request_failures) > request_failure_start:
         raise StepExecutionError(
-            "Network request failure: " + " | ".join(state.request_failures[request_failure_start:][:3])
+            "Uncaught page error: " + " | ".join(state.page_errors[page_error_start:][:3])
+        )
+    if (
+        contract.policy.fail_on_request_failure
+        and len(state.request_failures) > request_failure_start
+    ):
+        raise StepExecutionError(
+            "Network request failure: "
+            + " | ".join(state.request_failures[request_failure_start:][:3])
         )
 
     if contract.policy.forbidden_visible_markers:
@@ -467,7 +486,9 @@ def _assert_http(response: httpx.Response, assertions: HttpAssertions, duration_
     if assertions.body_contains is not None and assertions.body_contains not in text:
         raise StepExecutionError(f"Response body does not contain {assertions.body_contains!r}")
     if assertions.body_not_contains is not None and assertions.body_not_contains in text:
-        raise StepExecutionError(f"Response body contains forbidden value {assertions.body_not_contains!r}")
+        raise StepExecutionError(
+            f"Response body contains forbidden value {assertions.body_not_contains!r}"
+        )
     if assertions.body_matches is not None and re.search(assertions.body_matches, text) is None:
         raise StepExecutionError(f"Response body does not match {assertions.body_matches!r}")
     if assertions.json_assertions:
@@ -516,7 +537,9 @@ def _http_request(
     return response, duration_ms, resolved
 
 
-def _network_assert(step: NetworkAssertStep, state: RuntimeState, values: dict[str, Any]) -> dict[str, Any]:
+def _network_assert(
+    step: NetworkAssertStep, state: RuntimeState, values: dict[str, Any]
+) -> dict[str, Any]:
     resolved = resolve_templates(step.model_dump(), values)
     matches: list[NetworkRecord] = []
     regex = re.compile(resolved["url_matches"]) if resolved.get("url_matches") else None
@@ -531,7 +554,7 @@ def _network_assert(step: NetworkAssertStep, state: RuntimeState, values: dict[s
             continue
         if resolved.get("status") is not None and record.status != resolved["status"]:
             continue
-        body = (record.response_body or record.request_body or "")
+        body = record.response_body or record.request_body or ""
         if resolved.get("body_contains") and resolved["body_contains"] not in body:
             continue
         if resolved.get("body_not_contains") and resolved["body_not_contains"] in body:
@@ -671,18 +694,29 @@ def _execute_step(
         )
         if response is not None and response.status >= 400:
             raise StepExecutionError(f"Navigation returned HTTP {response.status}: {url}")
-        return f"Navigated to {url}", {"url": page.url, "status": response.status if response else None}
+        return f"Navigated to {url}", {
+            "url": page.url,
+            "status": response.status if response else None,
+        }
 
     if isinstance(step, BrowserFillStep):
         locator = _locator(page, step.target)
         value = resolve_template_string(step.value, values)
         locator.fill(value, timeout=timeout)
-        return "Filled field", {"target": step.target.model_dump() if isinstance(step.target, LocatorSpec) else step.target}
+        return "Filled field", {
+            "target": step.target.model_dump()
+            if isinstance(step.target, LocatorSpec)
+            else step.target
+        }
 
     if isinstance(step, BrowserClickStep):
         locator = _locator(page, step.target)
         locator.click(button=step.button, click_count=step.click_count, timeout=timeout)
-        return "Clicked element", {"target": step.target.model_dump() if isinstance(step.target, LocatorSpec) else step.target}
+        return "Clicked element", {
+            "target": step.target.model_dump()
+            if isinstance(step.target, LocatorSpec)
+            else step.target
+        }
 
     if isinstance(step, BrowserPressStep):
         key = resolve_template_string(step.key, values)
@@ -800,7 +834,11 @@ def _execute_step(
 
     if isinstance(step, BrowserExtractStep):
         locator = _locator(page, step.target)
-        value = locator.get_attribute(step.attribute) if step.attribute else locator.inner_text(timeout=timeout)
+        value = (
+            locator.get_attribute(step.attribute)
+            if step.attribute
+            else locator.inner_text(timeout=timeout)
+        )
         if value is None:
             raise StepExecutionError("Extracted value is null")
         runtime.state.context_values[step.variable] = value
@@ -826,7 +864,9 @@ def _execute_step(
             attempts += 1
             response, duration_ms, resolved = _http_request(step, contract, values, http_client)
             try:
-                _assert_http(response, HttpAssertions.model_validate(resolved["assertions"]), duration_ms)
+                _assert_http(
+                    response, HttpAssertions.model_validate(resolved["assertions"]), duration_ms
+                )
                 if step.save_json_as:
                     runtime.state.context_values[step.save_json_as] = response.json()
                 return "HTTP poll assertion passed", {
@@ -931,7 +971,9 @@ def run_contract(
                 flow_started_perf = time.perf_counter()
                 flow_started_at = utc_iso()
                 attempts: list[FlowAttempt] = []
-                max_attempts = 1 + (flow.retries if flow.retries is not None else contract.policy.retries)
+                max_attempts = 1 + (
+                    flow.retries if flow.retries is not None else contract.policy.retries
+                )
                 final_passed = False
                 for attempt_number in range(1, max_attempts + 1):
                     attempt_started_perf = time.perf_counter()
@@ -998,7 +1040,10 @@ def run_contract(
                             _check_policy(page, state, contract, baseline)
                             mode = _step_screenshot_mode(step, contract)
                             if mode == "always":
-                                relative = flow_path / f"step-{step_index + 1:03d}-{safe_slug(step.type)}.png"
+                                relative = (
+                                    flow_path
+                                    / f"step-{step_index + 1:03d}-{safe_slug(step.type)}.png"
+                                )
                                 output = bundle.path(relative)
                                 page.screenshot(path=str(output), full_page=True)
                                 artifacts.append(bundle.relative(output))
@@ -1146,7 +1191,9 @@ def run_contract(
                 elif final_passed:
                     flow_status = "flaky"
                     if contract.policy.fail_on_flaky:
-                        policy_findings.append(f"Flow {flow.id} was flaky and fail_on_flaky is enabled")
+                        policy_findings.append(
+                            f"Flow {flow.id} was flaky and fail_on_flaky is enabled"
+                        )
                 else:
                     flow_status = "failed"
                 flow_result = FlowResult(
@@ -1167,8 +1214,10 @@ def run_contract(
     flaky = sum(flow.status == "flaky" for flow in flow_results)
     passed = sum(flow.status == "passed" for flow in flow_results)
     skipped = sum(flow.status == "skipped" for flow in flow_results)
-    run_status = "failed" if failed or (flaky and contract.policy.fail_on_flaky) or policy_findings else (
-        "flaky" if flaky else "passed"
+    run_status = (
+        "failed"
+        if failed or (flaky and contract.policy.fail_on_flaky) or policy_findings
+        else ("flaky" if flaky else "passed")
     )
     summary = {
         "flows": len(flow_results),

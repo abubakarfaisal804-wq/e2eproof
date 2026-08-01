@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated, Any, Literal, TypeAlias
 
-from pydantic import BaseModel, ConfigDict, Field, HttpUrl, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class StrictModel(BaseModel):
@@ -246,7 +246,9 @@ class HttpAssertions(StrictModel):
     body_contains: str | None = None
     body_not_contains: str | None = None
     body_matches: str | None = None
-    json_assertions: list[JsonAssertion] = Field(default_factory=list, alias="json", serialization_alias="json")
+    json_assertions: list[JsonAssertion] = Field(
+        default_factory=list, alias="json", serialization_alias="json"
+    )
     max_duration_ms: int | None = Field(default=None, ge=1)
 
 
@@ -352,7 +354,9 @@ class PolicyConfig(StrictModel):
     navigation_timeout_ms: int = Field(default=30_000, ge=100, le=300_000)
     retries: int = Field(default=0, ge=0, le=5)
     allowed_hosts: list[str] = Field(default_factory=list)
-    allowed_schemes: list[Literal["http", "https"]] = Field(default_factory=lambda: ["http", "https"])
+    allowed_schemes: list[Literal["http", "https"]] = Field(
+        default_factory=lambda: ["http", "https"]
+    )
     fail_on_console_error: bool = True
     fail_on_page_error: bool = True
     fail_on_request_failure: bool = True

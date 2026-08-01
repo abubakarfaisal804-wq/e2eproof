@@ -20,7 +20,7 @@ def replace_owner(path: Path, owner: str) -> bool:
 def configure_pyproject(owner: str) -> bool:
     path = ROOT / "pyproject.toml"
     text = path.read_text(encoding="utf-8")
-    block = f'''\n[project.urls]\nHomepage = "https://github.com/{owner}/e2eproof"\nDocumentation = "https://github.com/{owner}/e2eproof#readme"\nRepository = "https://github.com/{owner}/e2eproof"\nIssues = "https://github.com/{owner}/e2eproof/issues"\n'''
+    block = f"""\n[project.urls]\nHomepage = "https://github.com/{owner}/e2eproof"\nDocumentation = "https://github.com/{owner}/e2eproof#readme"\nRepository = "https://github.com/{owner}/e2eproof"\nIssues = "https://github.com/{owner}/e2eproof/issues"\n"""
     if "[project.urls]" in text:
         start = text.index("[project.urls]")
         next_section = text.find("\n[", start + 1)
@@ -38,7 +38,9 @@ def configure_pyproject(owner: str) -> bool:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Configure owner-specific public release metadata.")
+    parser = argparse.ArgumentParser(
+        description="Configure owner-specific public release metadata."
+    )
     parser.add_argument("--owner", required=True, help="GitHub user or organization name")
     args = parser.parse_args()
     owner = args.owner.strip()

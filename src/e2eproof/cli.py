@@ -85,8 +85,12 @@ def _parser() -> argparse.ArgumentParser:
         "install-browser",
         help="Install a Playwright browser used by E2EProof",
     )
-    install_browser.add_argument("browser", choices=(*BROWSER_ENGINES, "all"), nargs="?", default="chromium")
-    install_browser.add_argument("--with-deps", action="store_true", help="Also install Linux OS dependencies")
+    install_browser.add_argument(
+        "browser", choices=(*BROWSER_ENGINES, "all"), nargs="?", default="chromium"
+    )
+    install_browser.add_argument(
+        "--with-deps", action="store_true", help="Also install Linux OS dependencies"
+    )
 
     demo = sub.add_parser("demo", help="Run a real local browser-to-backend proof")
     _add_demo_options(demo)
@@ -96,7 +100,9 @@ def _parser() -> argparse.ArgumentParser:
         help="Install a missing browser (with confirmation) and run the real demo",
     )
     _add_demo_options(quickstart)
-    quickstart.add_argument("-y", "--yes", action="store_true", help="Install a missing browser without prompting")
+    quickstart.add_argument(
+        "-y", "--yes", action="store_true", help="Install a missing browser without prompting"
+    )
 
     schema = sub.add_parser("schema", help="Write the JSON schema for contracts")
     schema.add_argument("--output", type=Path)
@@ -132,16 +138,24 @@ def _browser_doctor_detail(engine: BrowserEngine = "chromium") -> tuple[bool, st
     return False, f"Not found. Run: e2eproof install-browser {engine}"
 
 
-def _doctor(contract_path: Path | None, browser_engine: BrowserEngine | None = None) -> dict[str, Any]:
+def _doctor(
+    contract_path: Path | None, browser_engine: BrowserEngine | None = None
+) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
-    checks.append({"name": "python", "ok": sys.version_info >= (3, 11), "detail": sys.version.split()[0]})
+    checks.append(
+        {"name": "python", "ok": sys.version_info >= (3, 11), "detail": sys.version.split()[0]}
+    )
 
     contract: Contract | None = None
     if contract_path:
         try:
             contract = load_contract(contract_path)
             checks.append({"name": "contract", "ok": True, "detail": contract.name})
-            missing = [spec.env for spec in contract.secrets.values() if spec.required and not os.getenv(spec.env)]
+            missing = [
+                spec.env
+                for spec in contract.secrets.values()
+                if spec.required and not os.getenv(spec.env)
+            ]
             checks.append(
                 {
                     "name": "required-secrets",
@@ -152,7 +166,9 @@ def _doctor(contract_path: Path | None, browser_engine: BrowserEngine | None = N
         except E2EProofError as error:
             checks.append({"name": "contract", "ok": False, "detail": str(error)})
 
-    selected_engine: BrowserEngine = browser_engine or (contract.browser.engine if contract else "chromium")
+    selected_engine: BrowserEngine = browser_engine or (
+        contract.browser.engine if contract else "chromium"
+    )
     browser_ok, browser_detail = _browser_doctor_detail(selected_engine)
     checks.append(
         {
@@ -166,7 +182,9 @@ def _doctor(contract_path: Path | None, browser_engine: BrowserEngine | None = N
             "name": "openai-key-optional",
             "ok": bool(os.getenv("OPENAI_API_KEY")),
             "required": False,
-            "detail": "set" if os.getenv("OPENAI_API_KEY") else "not set; core verification still works",
+            "detail": "set"
+            if os.getenv("OPENAI_API_KEY")
+            else "not set; core verification still works",
         }
     )
     required_failures = [item for item in checks if item.get("required", True) and not item["ok"]]
@@ -188,7 +206,9 @@ def _install_browser(engine: str, *, with_deps: bool = False) -> None:
         command.append(selected)
         completed = subprocess.run(command, check=False)
         if completed.returncode != 0:
-            raise OSError(f"Browser installation failed for {selected} (exit {completed.returncode})")
+            raise OSError(
+                f"Browser installation failed for {selected} (exit {completed.returncode})"
+            )
 
 
 def _demo_contract(base_url: str, output: Path, engine: BrowserEngine, headed: bool) -> Contract:
@@ -220,7 +240,11 @@ def _demo_contract(base_url: str, output: Path, engine: BrowserEngine, headed: b
                     "claim": "Submitting the form stores exactly one lead and shows a real confirmation.",
                     "steps": [
                         {"type": "browser.goto", "url": "/app/real"},
-                        {"type": "browser.fill", "target": {"label": "Email"}, "value": "{{email}}"},
+                        {
+                            "type": "browser.fill",
+                            "target": {"label": "Email"},
+                            "value": "{{email}}",
+                        },
                         {
                             "type": "browser.click",
                             "target": {"role": "button", "name": "Submit lead"},
@@ -260,7 +284,9 @@ def _demo_contract(base_url: str, output: Path, engine: BrowserEngine, headed: b
     )
 
 
-def _run_demo(*, engine: BrowserEngine, headed: bool, output: Path, no_open: bool, json_output: bool) -> int:
+def _run_demo(
+    *, engine: BrowserEngine, headed: bool, output: Path, no_open: bool, json_output: bool
+) -> int:
     server = serve("127.0.0.1", 0)
     thread = threading.Thread(target=server.serve_forever, name="e2eproof-demo", daemon=True)
     thread.start()
@@ -309,7 +335,11 @@ def _confirm_browser_install(engine: BrowserEngine, assume_yes: bool) -> bool:
         return True
     if not sys.stdin.isatty():
         return False
-    answer = input(f"{engine} is missing. Install it now (roughly a few hundred MB)? [Y/n] ").strip().casefold()
+    answer = (
+        input(f"{engine} is missing. Install it now (roughly a few hundred MB)? [Y/n] ")
+        .strip()
+        .casefold()
+    )
     return answer in {"", "y", "yes", "j", "ja"}
 
 
@@ -324,7 +354,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "validate":
             contract = load_contract(args.contract)
             payload = {"valid": True, "name": contract.name, "flows": len(contract.flows)}
-            _print_json(payload) if args.json else print(f"VALID: {contract.name} ({len(contract.flows)} flows)")
+            _print_json(payload) if args.json else print(
+                f"VALID: {contract.name} ({len(contract.flows)} flows)"
+            )
             return 0
 
         if args.command == "run":
@@ -343,7 +375,9 @@ def main(argv: list[str] | None = None) -> int:
             if browser_updates:
                 updates["browser"] = contract.browser.model_copy(update=browser_updates)
             if args.sign_key:
-                updates["evidence"] = contract.evidence.model_copy(update={"sign_key": args.sign_key})
+                updates["evidence"] = contract.evidence.model_copy(
+                    update={"sign_key": args.sign_key}
+                )
             if updates:
                 contract = contract.model_copy(update=updates)
             result, bundle = run_contract(
@@ -396,7 +430,11 @@ def main(argv: list[str] | None = None) -> int:
                 _print_json(payload)
             else:
                 for check in payload["checks"]:
-                    mark = "OK" if check["ok"] else ("INFO" if check.get("required") is False else "FAIL")
+                    mark = (
+                        "OK"
+                        if check["ok"]
+                        else ("INFO" if check.get("required") is False else "FAIL")
+                    )
                     print(f"[{mark}] {check['name']}: {check['detail']}")
             return 0 if payload["ok"] else 2
 
@@ -456,7 +494,11 @@ def main(argv: list[str] | None = None) -> int:
             )
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(
-                yaml.safe_dump(contract.model_dump(mode="json", by_alias=True), sort_keys=False, allow_unicode=True),
+                yaml.safe_dump(
+                    contract.model_dump(mode="json", by_alias=True),
+                    sort_keys=False,
+                    allow_unicode=True,
+                ),
                 encoding="utf-8",
             )
             print(f"Generated and validated {args.output}")

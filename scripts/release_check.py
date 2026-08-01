@@ -38,7 +38,9 @@ def main() -> int:
         "--cov-report=term-missing",
     )
     validate_examples()
-    run(sys.executable, "-m", "pip", "wheel", ".", "--no-build-isolation", "--no-deps", "-w", "dist")
+    run(
+        sys.executable, "-m", "pip", "wheel", ".", "--no-build-isolation", "--no-deps", "-w", "dist"
+    )
     print("Release checks passed.")
     return 0
 

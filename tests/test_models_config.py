@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-import yaml
 from pydantic import ValidationError
 
 from e2eproof.config import load_contract, write_sample_contract

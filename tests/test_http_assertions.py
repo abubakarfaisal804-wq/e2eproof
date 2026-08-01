@@ -8,8 +8,15 @@ from e2eproof.models import HttpAssertions, JsonAssertion, NetworkAssertStep
 from e2eproof.runner import NetworkRecord, RuntimeState, _assert_http, _assert_json, _network_assert
 
 
-def response(status: int = 200, body: str = '{"name":"alpha","items":[1,2]}', headers=None) -> httpx.Response:
-    return httpx.Response(status, text=body, headers=headers or {"x-mode": "real"}, request=httpx.Request("GET", "https://example.com"))
+def response(
+    status: int = 200, body: str = '{"name":"alpha","items":[1,2]}', headers=None
+) -> httpx.Response:
+    return httpx.Response(
+        status,
+        text=body,
+        headers=headers or {"x-mode": "real"},
+        request=httpx.Request("GET", "https://example.com"),
+    )
 
 
 def test_http_assertion_matrix() -> None:
@@ -46,7 +53,11 @@ def test_http_assertion_matrix() -> None:
         with pytest.raises(StepExecutionError, match=message):
             _assert_http(response(), HttpAssertions.model_validate(raw), 10)
     with pytest.raises(StepExecutionError, match="not valid JSON"):
-        _assert_http(response(body="not-json"), HttpAssertions.model_validate({"json": [{"path": "$.x", "exists": True}]}), 1)
+        _assert_http(
+            response(body="not-json"),
+            HttpAssertions.model_validate({"json": [{"path": "$.x", "exists": True}]}),
+            1,
+        )
 
 
 def test_json_and_network_negative_branches() -> None:
@@ -63,11 +74,36 @@ def test_json_and_network_negative_branches() -> None:
         context_values={},
         network=[
             NetworkRecord(kind="request", url="https://x/api", method="POST", request_body="hello"),
-            NetworkRecord(kind="response", url="https://x/api", method="POST", status=201, response_body="world"),
-            NetworkRecord(kind="response", url="https://x/api", method="POST", status=500, response_body="bad"),
+            NetworkRecord(
+                kind="response",
+                url="https://x/api",
+                method="POST",
+                status=201,
+                response_body="world",
+            ),
+            NetworkRecord(
+                kind="response", url="https://x/api", method="POST", status=500, response_body="bad"
+            ),
         ],
     )
-    result = _network_assert(NetworkAssertStep(type="network.assert", kind="response", url_matches=r"/api$", method="POST", status=201, body_contains="world", minimum=1, maximum=1), state, {})
+    result = _network_assert(
+        NetworkAssertStep(
+            type="network.assert",
+            kind="response",
+            url_matches=r"/api$",
+            method="POST",
+            status=201,
+            body_contains="world",
+            minimum=1,
+            maximum=1,
+        ),
+        state,
+        {},
+    )
     assert result["matched"] == 1
     with pytest.raises(StepExecutionError, match="maximum"):
-        _network_assert(NetworkAssertStep(type="network.assert", url_contains="/api", minimum=0, maximum=1), state, {})
+        _network_assert(
+            NetworkAssertStep(type="network.assert", url_contains="/api", minimum=0, maximum=1),
+            state,
+            {},
+        )

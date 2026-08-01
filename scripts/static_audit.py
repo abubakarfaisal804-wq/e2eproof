@@ -3,10 +3,9 @@ from __future__ import annotations
 import ast
 import json
 import re
-import sys
+from collections.abc import Iterable
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Iterable
 
 import yaml
 
@@ -77,7 +76,11 @@ def audit_python(path: Path, errors: list[str]) -> None:
             errors.append(f"{path}:{node.lineno}: unsafe YAML loading {name}")
         if name.startswith("subprocess."):
             for keyword in node.keywords:
-                if keyword.arg == "shell" and isinstance(keyword.value, ast.Constant) and keyword.value.value is True:
+                if (
+                    keyword.arg == "shell"
+                    and isinstance(keyword.value, ast.Constant)
+                    and keyword.value.value is True
+                ):
                     errors.append(f"{path}:{node.lineno}: subprocess shell=True")
 
 
@@ -92,7 +95,10 @@ def main() -> int:
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.suffix.lower() not in TEXT_SUFFIXES or path.name in ignored:
             continue
-        if any(part in {".venv", "build", "dist", "evidence", "sample_output", ".pytest_cache"} for part in path.parts):
+        if any(
+            part in {".venv", "build", "dist", "evidence", "sample_output", ".pytest_cache"}
+            for part in path.parts
+        ):
             continue
         try:
             text = path.read_text(encoding="utf-8")

@@ -9,7 +9,6 @@ from playwright.sync_api import sync_playwright
 from e2eproof.errors import StepExecutionError
 from e2eproof.models import BrowserAccessibilityStep, Contract
 from e2eproof.runner import RuntimeState, _audit_accessibility, _check_policy
-from e2eproof.utils import Redactor
 
 
 def _contract(**policy: object) -> Contract:
@@ -41,10 +40,16 @@ def test_accessibility_baseline_and_visible_marker() -> None:
             kwargs["args"] = ["--no-sandbox"]
         browser = playwright.chromium.launch(**kwargs)
         page = browser.new_page()
-        page.set_content('<html lang="en"><head><title>x</title></head><body><label>Email<input></label><button>Save</button></body></html>')
-        details = _audit_accessibility(page, BrowserAccessibilityStep(type="browser.audit_accessibility"))
+        page.set_content(
+            '<html lang="en"><head><title>x</title></head><body><label>Email<input></label><button>Save</button></body></html>'
+        )
+        details = _audit_accessibility(
+            page, BrowserAccessibilityStep(type="browser.audit_accessibility")
+        )
         assert details["count"] == 0
-        page.set_content("<html><head></head><body><input><button></button><p>fallback active</p></body></html>")
+        page.set_content(
+            "<html><head></head><body><input><button></button><p>fallback active</p></body></html>"
+        )
         with pytest.raises(StepExecutionError, match="Accessibility"):
             _audit_accessibility(page, BrowserAccessibilityStep(type="browser.audit_accessibility"))
         state = RuntimeState(context_values={})

@@ -1,16 +1,14 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
-
-import re
 
 import yaml
 from pydantic import ValidationError
 
 from .errors import ContractError
 from .models import Contract
-
 
 _LIKELY_SECRET_PATTERNS = [
     re.compile(r"sk-(?:proj-)?[A-Za-z0-9_-]{16,}"),

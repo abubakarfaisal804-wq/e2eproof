@@ -3,8 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import yaml
 import pytest
+import yaml
 
 from e2eproof.config import load_contract
 from e2eproof.evidence import verify_bundle
@@ -67,7 +67,9 @@ def _write_contract(path: Path, base_url: str, expected_count: int = 1) -> None:
 def test_http_only_runner_passes_and_bundle_verifies(tmp_path: Path, demo_server: str) -> None:
     contract_path = tmp_path / "pass.yaml"
     _write_contract(contract_path, demo_server)
-    result, bundle = run_contract(load_contract(contract_path), contract_path=contract_path, run_id="pass")
+    result, bundle = run_contract(
+        load_contract(contract_path), contract_path=contract_path, run_id="pass"
+    )
     assert result.status == "passed"
     assert result.summary["passed"] == 1
     assert (bundle / "report.html").exists()
@@ -80,7 +82,9 @@ def test_http_only_runner_passes_and_bundle_verifies(tmp_path: Path, demo_server
 def test_http_only_runner_fails_on_wrong_side_effect(tmp_path: Path, demo_server: str) -> None:
     contract_path = tmp_path / "fail.yaml"
     _write_contract(contract_path, demo_server, expected_count=2)
-    result, bundle = run_contract(load_contract(contract_path), contract_path=contract_path, run_id="fail")
+    result, bundle = run_contract(
+        load_contract(contract_path), contract_path=contract_path, run_id="fail"
+    )
     assert result.status == "failed"
     assert "timed out" in result.flows[0].attempts[0].failure.lower()
     assert verify_bundle(bundle).valid
@@ -115,13 +119,21 @@ def test_runner_retry_flaky_and_signed_trace(tmp_path: Path, demo_server: str) -
                 "id": "flaky",
                 "claim": "A temporary backend failure is detected and classified as flaky.",
                 "steps": [
-                    {"type": "http.request", "method": "POST", "url": "/api/flaky", "json_body": {"email": "{{email}}"}, "assertions": {"status": 201}},
+                    {
+                        "type": "http.request",
+                        "method": "POST",
+                        "url": "/api/flaky",
+                        "json_body": {"email": "{{email}}"},
+                        "assertions": {"status": 201},
+                    },
                 ],
             }
         ],
     }
     contract_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
-    result, bundle = run_contract(load_contract(contract_path), contract_path=contract_path, run_id="flaky")
+    result, bundle = run_contract(
+        load_contract(contract_path), contract_path=contract_path, run_id="flaky"
+    )
     assert result.status == "failed"  # fail_on_flaky converts the run to failure
     assert result.flows[0].status == "flaky"
     assert len(result.flows[0].attempts) == 2
@@ -142,7 +154,13 @@ def test_secret_binary_artifacts_fail_closed(tmp_path: Path, monkeypatch) -> Non
         "base_url": "https://example.com",
         "secrets": {"token": {"env": "E2EPROOF_TEST_SECRET"}},
         "evidence": {"screenshot": "failure", "trace": "failure"},
-        "flows": [{"id": "x", "claim": "Secrets are protected from binary artifacts.", "steps": [{"type": "set.variable", "variable": "x", "value": "ok"}]}],
+        "flows": [
+            {
+                "id": "x",
+                "claim": "Secrets are protected from binary artifacts.",
+                "steps": [{"type": "set.variable", "variable": "x", "value": "ok"}],
+            }
+        ],
     }
     contract_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
     with pytest.raises(ContractError, match="Binary screenshots"):

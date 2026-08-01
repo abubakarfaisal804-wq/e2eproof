@@ -7,7 +7,6 @@ from xml.etree.ElementTree import Element, ElementTree, SubElement
 
 from .results import RunResult
 
-
 _STATUS_CLASS = {
     "passed": "pass",
     "failed": "fail",
@@ -47,15 +46,13 @@ def generate_html_report(result: RunResult) -> str:
             attempts_html.append(
                 f"<details {'open' if attempt.status == 'failed' else ''}>"
                 f"<summary>Attempt {attempt.attempt}: {attempt.status} · {attempt.duration_ms} ms</summary>"
-                "<div class=\"table-wrap\"><table><thead><tr>"
+                '<div class="table-wrap"><table><thead><tr>'
                 "<th>#</th><th>Step</th><th>Status</th><th>Time</th><th>Result</th><th>Evidence</th>"
-                "</tr></thead><tbody>"
-                + "".join(rows)
-                + "</tbody></table></div></details>"
+                "</tr></thead><tbody>" + "".join(rows) + "</tbody></table></div></details>"
             )
         flow_sections.append(
             f'<section class="flow {_STATUS_CLASS[flow.status]}">'
-            f"<div class=\"flow-head\"><div><h2>{html.escape(flow.id)}</h2>"
+            f'<div class="flow-head"><div><h2>{html.escape(flow.id)}</h2>'
             f"<p>{html.escape(flow.claim)}</p></div>"
             f'<span class="pill {_STATUS_CLASS[flow.status]}">{flow.status}</span></div>'
             + "".join(attempts_html)
@@ -97,8 +94,8 @@ details{{border-top:1px solid var(--line);margin-top:14px;padding-top:13px}}summ
 <div><b>Contract SHA-256</b><br><code>{html.escape(result.contract_sha256)}</code></div>
 </div></section>
 <section class="metrics">{summary_cards}</section>
-{('<section class="flow fail"><h2>Policy findings</h2><ul>' + policy + '</ul></section>') if policy else ''}
-{''.join(flow_sections)}
+{('<section class="flow fail"><h2>Policy findings</h2><ul>' + policy + "</ul></section>") if policy else ""}
+{"".join(flow_sections)}
 </main></body></html>"""
 
 

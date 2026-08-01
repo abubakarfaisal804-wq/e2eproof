@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import httpx
@@ -74,7 +73,9 @@ def test_ai_invalid_outputs() -> None:
         return httpx.Response(200, text="not-json")
 
     with pytest.raises(AIError, match="invalid JSON"):
-        OpenAIResponsesClient(api_key="x", transport=httpx.MockTransport(invalid_json)).complete(system="x", user="y")
+        OpenAIResponsesClient(api_key="x", transport=httpx.MockTransport(invalid_json)).complete(
+            system="x", user="y"
+        )
 
     def invalid_yaml(request: httpx.Request) -> httpx.Response:
         return httpx.Response(200, json={"output_text": "flows: ["})

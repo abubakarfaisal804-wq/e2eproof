@@ -10,7 +10,7 @@ E2EProof executes the user flow, checks independent side effects, and writes a t
 
 ## Two-command proof
 
-After the package is published:
+Install from PyPI:
 
 ```bash
 python -m pip install e2eproof
@@ -50,7 +50,7 @@ A strong contract combines independent observations:
 
 ## GitHub Action
 
-Replace `abubakarfaisal804-wq` with the repository owner after publication:
+Add the published Action to your workflow:
 
 ```yaml
 name: outcome proof
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: abubakarfaisal804-wq/e2eproof@v1
+      - uses: abubakarfaisal804-wq/e2eproof@v0.2.0
         with:
           contract: e2eproof.yaml
           browser: chromium
@@ -190,7 +190,7 @@ python -m ruff check .
 python -m mypy src/e2eproof
 ```
 
-The repository contains CI definitions for Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus real Chromium, Firefox, and WebKit browser-to-backend proofs. These jobs still need to run in the public repository before their status may be claimed as passing.
+Public CI covers Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus Chromium, Firefox, and WebKit browser-to-backend proofs. Check the Actions page for the current status before relying on a platform-support claim.
 
 ## Current status
 

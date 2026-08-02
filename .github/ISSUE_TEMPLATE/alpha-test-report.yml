@@ -1,0 +1,121 @@
+name: Alpha test report
+description: Report a first-time E2EProof onboarding session.
+title: "[Alpha]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets, cookies, production data, private URLs, or unredacted traces.
+
+  - type: input
+    id: version
+    attributes:
+      label: E2EProof version
+      placeholder: e2eproof --version
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: python --version
+    validations:
+      required: true
+
+  - type: input
+    id: minutes
+    attributes:
+      label: Minutes to first evidence report
+      placeholder: "12"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: quickstart
+    attributes:
+      label: Did quickstart complete?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: own_app
+    attributes:
+      label: Did you test your own local or staging app?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+
+  - type: textarea
+    id: flow
+    attributes:
+      label: Outcome you tried to prove
+      description: Describe it without private data.
+    validations:
+      required: true
+
+  - type: textarea
+    id: confusion
+    attributes:
+      label: What was confusing or slow?
+    validations:
+      required: true
+
+  - type: textarea
+    id: finding
+    attributes:
+      label: Did E2EProof catch a meaningful problem?
+      description: A clean pass is also a valid result.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reuse
+    attributes:
+      label: Would you use E2EProof again?
+      options:
+        - "Yes"
+        - "Maybe"
+        - "No"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: automation
+    attributes:
+      label: Would automatic CI runs be useful?
+      options:
+        - "Yes"
+        - "Maybe"
+        - "No"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: payment
+    attributes:
+      label: Would you consider paying for hosted history and alerts?
+      options:
+        - "Yes"
+        - "Maybe"
+        - "No"
+        - "Prefer not to answer"
+    validations:
+      required: true

@@ -196,6 +196,13 @@ Public CI covers Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus Chromium
 
 E2EProof is an alpha developer tool, not a hosted SaaS and not a guarantee for every application. It requires an explicit contract and does not replace a complete security audit, accessibility audit, or human review.
 
+## Alpha testers
+
+E2EProof is recruiting five developers for an asynchronous onboarding test.
+Start with the [15-minute alpha guide](docs/ALPHA_TESTER_GUIDE.md), then submit
+an **Alpha test report** issue. Use only applications you own or are authorized
+to test, and never post secrets or production data.
+
 ## License
 
 MIT. See `LICENSE`.

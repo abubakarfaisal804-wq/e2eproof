@@ -14,6 +14,8 @@ active list.
 
 ## P1 — Reproducible development and release health
 
+- Evaluate the Autopilot dry-run against reviewed local and scheduled cycles before
+  designing any execution handoff. Do not infer authority from an approval record.
 - Remove the strict-mypy quarantine for `e2eproof.cli` and `e2eproof.runner` one
   module at a time, with no loss of runtime coverage.
 - Reconcile `RELEASE_STATUS_NL.md` and release instructions with the public

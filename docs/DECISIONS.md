@@ -1,5 +1,20 @@
 # Engineering decisions
 
+## 2026-08-04 — Keep Autopilot v1 deterministic and dry-run only
+
+Decision: add a shared coordination state and one-action planner without any execution
+adapter. The only planning mode uses fixed integer scoring and a zero model-call
+budget. GitHub observation uses bounded read-only GET requests.
+
+Reason: the repository has independent CEO and engineering priorities but no safe,
+shared handoff evidence yet. Persisting observations, decisions, outcomes, approvals,
+and briefs tests coordination value without granting source, customer, financial,
+release, or communication authority.
+
+Consequence: even a satisfied owner approval can only change the brief's policy status;
+it cannot cause an external action. Force pushes and protected-history rewrites remain
+hard-blocked.
+
 ## 2026-08-04 — Complete the existing dependency PR
 
 Decision: improve PR #1 instead of opening a duplicate dependency PR.

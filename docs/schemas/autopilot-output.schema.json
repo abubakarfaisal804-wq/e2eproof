@@ -1,0 +1,515 @@
+{
+  "$defs": {
+    "ActionKind": {
+      "enum": [
+        "observe",
+        "score",
+        "persist_state",
+        "generate_execution_brief",
+        "run_read_only_checks",
+        "modify_application_code",
+        "open_or_merge_pull_request",
+        "send_email",
+        "deploy",
+        "publish_release",
+        "change_credentials",
+        "spend_money",
+        "change_pricing_or_billing",
+        "make_legal_commitment",
+        "access_customer_production_data",
+        "destructive_migration",
+        "change_security_control",
+        "force_push",
+        "rewrite_protected_history"
+      ],
+      "title": "ActionKind",
+      "type": "string"
+    },
+    "BudgetUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "api_requests": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Api Requests",
+          "type": "integer"
+        },
+        "model_calls": {
+          "default": 0,
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        }
+      },
+      "title": "BudgetUsage",
+      "type": "object"
+    },
+    "CycleStatus": {
+      "enum": [
+        "selected",
+        "no_action",
+        "blocked"
+      ],
+      "title": "CycleStatus",
+      "type": "string"
+    },
+    "ExecutionBrief": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Acceptance Criteria",
+          "type": "array"
+        },
+        "affected_area": {
+          "title": "Affected Area",
+          "type": "string"
+        },
+        "dry_run": {
+          "default": true,
+          "title": "Dry Run",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Observation"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "expected_impact": {
+          "title": "Expected Impact",
+          "type": "string"
+        },
+        "objective": {
+          "title": "Objective",
+          "type": "string"
+        },
+        "owner_approval": {
+          "$ref": "#/$defs/OwnerApprovalStatus"
+        },
+        "permitted_actions": {
+          "items": {
+            "$ref": "#/$defs/ActionKind"
+          },
+          "title": "Permitted Actions",
+          "type": "array"
+        },
+        "prohibited_actions": {
+          "items": {
+            "$ref": "#/$defs/ActionKind"
+          },
+          "title": "Prohibited Actions",
+          "type": "array"
+        },
+        "required_tests": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Tests",
+          "type": "array"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "suggested_branch": {
+          "title": "Suggested Branch",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "objective",
+        "evidence",
+        "expected_impact",
+        "acceptance_criteria",
+        "affected_area",
+        "required_tests",
+        "suggested_branch",
+        "risk_level",
+        "permitted_actions",
+        "prohibited_actions",
+        "owner_approval"
+      ],
+      "title": "ExecutionBrief",
+      "type": "object"
+    },
+    "FactKind": {
+      "enum": [
+        "verified",
+        "estimate",
+        "hypothesis"
+      ],
+      "title": "FactKind",
+      "type": "string"
+    },
+    "JsonValue": {},
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "maxLength": 80,
+          "minLength": 2,
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence_url": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Url"
+        },
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "observation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,149}$",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 160,
+          "minLength": 2,
+          "title": "Source",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        }
+      },
+      "required": [
+        "observation_id",
+        "observed_at",
+        "kind",
+        "category",
+        "source",
+        "summary"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "OwnerApprovalStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "approval_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Approval Ids",
+          "type": "array"
+        },
+        "missing_scopes": {
+          "items": {
+            "$ref": "#/$defs/PolicyTag"
+          },
+          "title": "Missing Scopes",
+          "type": "array"
+        },
+        "required": {
+          "title": "Required",
+          "type": "boolean"
+        },
+        "satisfied": {
+          "title": "Satisfied",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "required",
+        "satisfied",
+        "approval_ids",
+        "missing_scopes"
+      ],
+      "title": "OwnerApprovalStatus",
+      "type": "object"
+    },
+    "PolicyAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "approval_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Approval Ids",
+          "type": "array"
+        },
+        "approval_required_for": {
+          "items": {
+            "$ref": "#/$defs/PolicyTag"
+          },
+          "title": "Approval Required For",
+          "type": "array"
+        },
+        "missing_approval_scopes": {
+          "items": {
+            "$ref": "#/$defs/PolicyTag"
+          },
+          "title": "Missing Approval Scopes",
+          "type": "array"
+        },
+        "permitted_actions": {
+          "items": {
+            "$ref": "#/$defs/ActionKind"
+          },
+          "title": "Permitted Actions",
+          "type": "array"
+        },
+        "prohibited_actions": {
+          "items": {
+            "$ref": "#/$defs/ActionKind"
+          },
+          "title": "Prohibited Actions",
+          "type": "array"
+        },
+        "reason": {
+          "maxLength": 1000,
+          "minLength": 2,
+          "title": "Reason",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/PolicyStatus"
+        }
+      },
+      "required": [
+        "status",
+        "approval_required_for",
+        "missing_approval_scopes",
+        "approval_ids",
+        "permitted_actions",
+        "prohibited_actions",
+        "reason"
+      ],
+      "title": "PolicyAssessment",
+      "type": "object"
+    },
+    "PolicyStatus": {
+      "enum": [
+        "dry_run_only",
+        "owner_approval_required",
+        "approved_for_brief_only",
+        "hard_blocked"
+      ],
+      "title": "PolicyStatus",
+      "type": "string"
+    },
+    "PolicyTag": {
+      "enum": [
+        "spending",
+        "paid_infrastructure",
+        "credentials",
+        "secrets",
+        "pricing",
+        "billing",
+        "legal",
+        "customer_production_data",
+        "release",
+        "deployment",
+        "destructive_migration",
+        "branch_protection",
+        "security_controls",
+        "force_push",
+        "protected_history_rewrite"
+      ],
+      "title": "PolicyTag",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "ScoreCard": {
+      "additionalProperties": false,
+      "properties": {
+        "breakdown": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Breakdown",
+          "type": "object"
+        },
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "reason": {
+          "maxLength": 500,
+          "minLength": 2,
+          "title": "Reason",
+          "type": "string"
+        },
+        "score": {
+          "title": "Score",
+          "type": "integer"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "verified_evidence_count": {
+          "minimum": 0,
+          "title": "Verified Evidence Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "task_id",
+        "score",
+        "breakdown",
+        "verified_evidence_count",
+        "eligible",
+        "reason"
+      ],
+      "title": "ScoreCard",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "budgets": {
+      "$ref": "#/$defs/BudgetUsage"
+    },
+    "completed_at": {
+      "format": "date-time",
+      "title": "Completed At",
+      "type": "string"
+    },
+    "cycle_id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,159}$",
+      "title": "Cycle Id",
+      "type": "string"
+    },
+    "decision_summary": {
+      "title": "Decision Summary",
+      "type": "string"
+    },
+    "dry_run": {
+      "default": true,
+      "title": "Dry Run",
+      "type": "boolean"
+    },
+    "execution_brief": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ExecutionBrief"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "input_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Input Digest",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "title": "Observations",
+      "type": "array"
+    },
+    "policy": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PolicyAssessment"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema_version": {
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "scorecards": {
+      "items": {
+        "$ref": "#/$defs/ScoreCard"
+      },
+      "title": "Scorecards",
+      "type": "array"
+    },
+    "selected_task_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Selected Task Id"
+    },
+    "state_revision": {
+      "minimum": 0,
+      "title": "State Revision",
+      "type": "integer"
+    },
+    "status": {
+      "$ref": "#/$defs/CycleStatus"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cycle_id",
+    "input_digest",
+    "completed_at",
+    "status",
+    "decision_summary",
+    "observations",
+    "scorecards",
+    "budgets",
+    "state_revision"
+  ],
+  "title": "CycleOutput",
+  "type": "object"
+}

@@ -16,6 +16,8 @@ checks, and no unsupported release claims.
 
 ## 2. Distribution and validation
 
+- Use the dry-run Autopilot state and briefs to coordinate verified priorities; keep
+  execution human-reviewed until rollout evidence supports a narrower handoff.
 - Reduce time to first evidence report through the quickstart and diagnostics.
 - Recruit testers using the existing alpha guide and issue template.
 - Measure completed first runs, real defects found, repeat use, and paid intent.

@@ -10,5 +10,7 @@ recursive-include site *
 recursive-include tests *.py
 recursive-include .github *.yml *.yaml *.md
 recursive-include scripts *.py *.ps1
+recursive-include ops *.json *.jsonl
+recursive-include evals *.json *.jsonl *.md
 prune evidence
 prune test-evidence

@@ -128,6 +128,7 @@ e2eproof keygen                     create an Ed25519 keypair
 e2eproof schema                     export the contract JSON Schema
 e2eproof ai-draft                   optionally draft a contract with OpenAI
 e2eproof ai-diagnose                optionally explain a redacted failure with OpenAI
+e2eproof autopilot dry-run          generate one deterministic coordination brief
 ```
 
 Exit codes:
@@ -195,6 +196,10 @@ Public CI covers Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus Chromium
 ## Current status
 
 E2EProof is an alpha developer tool, not a hosted SaaS and not a guarantee for every application. It requires an explicit contract and does not replace a complete security audit, accessibility audit, or human review.
+
+The optional Autopilot control plane is also dry-run only. It can observe, score,
+persist coordination state, and generate one brief; it cannot execute that brief.
+See `docs/AUTOPILOT_ARCHITECTURE.md` and `docs/AUTOPILOT_POLICY.md`.
 
 ## Alpha testers
 

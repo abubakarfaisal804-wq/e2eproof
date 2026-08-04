@@ -56,3 +56,10 @@ An hourly local Codex automation requires the computer to remain awake, online, 
 Codex app available. Each run must return evidence to the review queue and stop for any
 action that crosses the release, credential, billing, legal, production-data, or
 irreversible-migration boundary.
+
+## Autopilot dry-run
+
+Autopilot's separate hourly GitHub workflow has read-only permissions and no executor.
+Use `docs/AUTOPILOT_OPERATIONS.md` for input, state, idempotency, lock recovery, audit,
+and artifact procedures. An execution brief is proposed work, not authorization or
+evidence that the work occurred.

@@ -6,8 +6,6 @@ active list.
 
 ## P0 — Reliability and trust
 
-- Resolve CodeQL alert #1 without weakening scanning. The current trace treats the
-  `trusted_key_match` verification boolean as sensitive data flowing to CLI JSON.
 - Enable Dependabot alerts in repository settings. On 2026-08-04 the API reported
   Dependabot alerts and security updates disabled; secret scanning and push
   protection were enabled.

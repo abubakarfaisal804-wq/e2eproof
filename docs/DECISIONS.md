@@ -31,6 +31,17 @@ Reason: suppressing the shared JSON printer could hide a future real secret flow
 reported `trusted_key_match` value is a boolean about a public key, but the common sink
 is also used by other commands.
 
+## 2026-08-04 — Preserve verification output while correcting the CodeQL source
+
+Decision: name the internal boolean `expected_signer_match`, retain
+`trusted_key_match` as the stable CLI JSON key and a read-only Python compatibility
+property, and leave the shared JSON printer and CodeQL configuration unchanged.
+
+Reason: the value compares two public Ed25519 keys and contains no key material. The
+CodeQL SARIF path showed that its former attribute name was the heuristic sensitive
+source. The corrected name describes signer identity, while an end-to-end signed
+verification test protects behavior and compatibility.
+
 ## 2026-08-04 — Defer cloud infrastructure
 
 Decision: prioritize local reliability, release truth, and external validation before

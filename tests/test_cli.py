@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from e2eproof.cli import main
@@ -52,11 +53,39 @@ def test_cli_run_verify_keygen_and_errors(tmp_path: Path, demo_server: str, caps
         ),
         encoding="utf-8",
     )
-    assert main(["run", str(contract_path), "--run-id", "cli", "--json"]) == 0
-    bundle = tmp_path / "evidence" / "cli"
-    assert main(["verify", str(bundle), "--json"]) == 0
     keys = tmp_path / "keys"
     assert main(["keygen", str(keys)]) == 0
+    capsys.readouterr()
+    assert (
+        main(
+            [
+                "run",
+                str(contract_path),
+                "--run-id",
+                "cli",
+                "--sign-key",
+                str(keys / "e2eproof-private.pem"),
+                "--json",
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    bundle = tmp_path / "evidence" / "cli"
+    assert (
+        main(
+            [
+                "verify",
+                str(bundle),
+                "--public-key",
+                str(keys / "e2eproof-public.pem"),
+                "--json",
+            ]
+        )
+        == 0
+    )
+    verification = json.loads(capsys.readouterr().out)
+    assert verification["trusted_key_match"] is True
     assert main(["validate", str(tmp_path / "missing.yaml")]) == 2
     assert "ERROR" in capsys.readouterr().err
 

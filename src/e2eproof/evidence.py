@@ -22,10 +22,15 @@ class VerificationSummary:
     files_checked: int
     signature_present: bool
     signature_valid: bool | None
-    trusted_key_match: bool | None
+    expected_signer_match: bool | None
     event_chain_valid: bool
     errors: list[str]
     warnings: list[str]
+
+    @property
+    def trusted_key_match(self) -> bool | None:
+        """Compatibility alias for the signer identity comparison result."""
+        return self.expected_signer_match
 
 
 class EvidenceBundle:
@@ -249,10 +254,10 @@ def verify_bundle(bundle_dir: Path, trusted_public_key: Path | None = None) -> V
     signature_path = bundle_dir / "signature.json"
     signature_present = signature_path.exists()
     signature_valid: bool | None = None
-    trusted_key_match: bool | None = None
+    expected_signer_match: bool | None = None
     if trusted_public_key is not None and not signature_present:
         errors.append("A trusted public key was supplied but the bundle is not signed")
-        trusted_key_match = False
+        expected_signer_match = False
     if signature_present:
         try:
             signature_info = json.loads(signature_path.read_text(encoding="utf-8"))
@@ -271,8 +276,8 @@ def verify_bundle(bundle_dir: Path, trusted_public_key: Path | None = None) -> V
                     encoding=serialization.Encoding.Raw,
                     format=serialization.PublicFormat.Raw,
                 )
-                trusted_key_match = trusted_raw == embedded_public_raw
-                if not trusted_key_match:
+                expected_signer_match = trusted_raw == embedded_public_raw
+                if not expected_signer_match:
                     raise EvidenceVerificationError(
                         "Embedded signer does not match trusted public key"
                     )
@@ -304,7 +309,7 @@ def verify_bundle(bundle_dir: Path, trusted_public_key: Path | None = None) -> V
         files_checked=files_checked,
         signature_present=signature_present,
         signature_valid=signature_valid,
-        trusted_key_match=trusted_key_match,
+        expected_signer_match=expected_signer_match,
         event_chain_valid=chain_valid,
         errors=errors,
         warnings=warnings,

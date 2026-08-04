@@ -36,6 +36,14 @@ python -m pip_audit
 Install the selected Playwright browser before browser-marked tests. Platform-specific
 local failures must be reported separately from product regressions.
 
+## Security controls
+
+CodeQL must remain enabled on pull requests, pushes to `main`, and its scheduled run;
+do not suppress the shared CLI JSON output sink. Dependency review and local
+`pip-audit` remain required while repository Dependabot alerts are disabled. Enabling
+Dependabot vulnerability alerts and automated security updates is an explicit owner
+action in GitHub repository settings.
+
 ## Release boundary
 
 Automation may prepare artifacts and evidence but must not publish a production release,

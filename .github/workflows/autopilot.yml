@@ -1,0 +1,79 @@
+name: Autopilot dry-run
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+  security-events: read
+
+concurrency:
+  group: autopilot-dry-run
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    name: Observe and generate one brief
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Restore previous dry-run state
+        id: autopilot-state
+        uses: actions/cache/restore@v5
+        with:
+          path: .autopilot-state
+          key: autopilot-state-v1-${{ github.run_id }}
+          restore-keys: |
+            autopilot-state-v1-
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install control plane
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --no-build-isolation -e ".[dev]"
+
+      - name: Run deterministic dry-run
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          e2eproof autopilot dry-run
+          --input evals/autopilot/fixtures/local-cycle.json
+          --repository-root .
+          --state-dir .autopilot-state
+          --seed-dir ops
+          --cycle-id "${GITHUB_RUN_ID}"
+          --github-live
+          --github-repository "${GITHUB_REPOSITORY}"
+          --output autopilot-output/result.json
+          --brief autopilot-output/execution-brief.json
+          --summary autopilot-output/summary.md
+
+      - name: Save completed dry-run state
+        if: success() && steps.autopilot-state.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: .autopilot-state
+          key: autopilot-state-v1-${{ github.run_id }}
+
+      - name: Upload readable dry-run result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: autopilot-dry-run-${{ github.run_id }}
+          path: |
+            autopilot-output
+            .autopilot-state
+          if-no-files-found: warn
+          retention-days: 14

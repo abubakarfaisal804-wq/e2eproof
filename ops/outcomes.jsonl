@@ -1,0 +1,1 @@
+{"schema_version":1,"evidence_ids":["github.repository"],"kind":"verified","outcome_id":"merge-pr-8-codeql","recorded_at":"2026-08-04T13:39:44Z","status":"completed","summary":"PR #8 merged and CodeQL alert #1 became fixed without a suppression.","task_id":"resolve-codeql-alert-1"}

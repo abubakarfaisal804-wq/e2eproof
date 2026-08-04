@@ -1,0 +1,1 @@
+{"schema_version":1,"cycle_id":"seed-governance","decision":"dry_run_boundary","decision_id":"decision-seed-governance","evidence_ids":[],"recorded_at":"2026-08-04T00:00:00Z","score":null,"summary":"Autopilot v1 may observe, score, persist state, and generate a brief; it has no execution authority.","task_id":null}

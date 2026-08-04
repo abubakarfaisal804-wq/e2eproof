@@ -121,6 +121,36 @@ def _parser() -> argparse.ArgumentParser:
     ai_diag.add_argument("--model", default="gpt-5.6-sol")
     ai_diag.add_argument("--effort", choices=["low", "medium", "high", "xhigh"], default="high")
     ai_diag.add_argument("--output", type=Path)
+
+    autopilot = sub.add_parser(
+        "autopilot", help="Run the deterministic dry-run coordination control plane"
+    )
+    autopilot_sub = autopilot.add_subparsers(dest="autopilot_command", required=True)
+    autopilot_dry_run = autopilot_sub.add_parser(
+        "dry-run", help="Observe, score, persist state, and generate one execution brief"
+    )
+    autopilot_dry_run.add_argument("--input", type=Path, required=True)
+    autopilot_dry_run.add_argument("--repository-root", type=Path, default=Path("."))
+    autopilot_dry_run.add_argument("--state-dir", type=Path, default=Path("autopilot-state"))
+    autopilot_dry_run.add_argument("--seed-dir", type=Path, default=Path("ops"))
+    autopilot_dry_run.add_argument("--cycle-id")
+    autopilot_dry_run.add_argument("--github-live", action="store_true")
+    autopilot_dry_run.add_argument("--github-repository")
+    autopilot_dry_run.add_argument(
+        "--output", type=Path, default=Path("autopilot-output/result.json")
+    )
+    autopilot_dry_run.add_argument(
+        "--brief", type=Path, default=Path("autopilot-output/execution-brief.json")
+    )
+    autopilot_dry_run.add_argument(
+        "--summary", type=Path, default=Path("autopilot-output/summary.md")
+    )
+    autopilot_dry_run.add_argument("--json", action="store_true")
+
+    autopilot_schema = autopilot_sub.add_parser(
+        "schemas", help="Write the versioned Autopilot JSON schemas"
+    )
+    autopilot_schema.add_argument("--output-dir", type=Path, default=Path("docs/schemas"))
     return parser
 
 
@@ -514,6 +544,46 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 print(text)
             return 0
+
+        if args.command == "autopilot":
+            if args.autopilot_command == "schemas":
+                from .autopilot.schema_export import write_json_schemas
+
+                written = write_json_schemas(args.output_dir)
+                for path in written:
+                    print(f"Wrote {path}")
+                return 0
+
+            from .autopilot.controller import (
+                load_cycle_input,
+                run_dry_cycle,
+                write_artifacts,
+            )
+
+            cycle_input = load_cycle_input(args.input)
+            output = run_dry_cycle(
+                cycle_input,
+                repository_root=args.repository_root,
+                state_dir=args.state_dir,
+                seed_dir=args.seed_dir,
+                cycle_id_override=args.cycle_id,
+                github_live=args.github_live,
+                github_repository=args.github_repository,
+                github_token=os.getenv("GITHUB_TOKEN"),
+            )
+            write_artifacts(
+                output,
+                output_path=args.output,
+                brief_path=args.brief,
+                summary_path=args.summary,
+            )
+            if args.json:
+                _print_json(output.model_dump(mode="json"))
+            else:
+                print(f"AUTOPILOT {output.status.value.upper()}: {output.decision_summary}")
+                print(f"Result:  {args.output}")
+                print(f"Summary: {args.summary}")
+            return 2 if output.status.value == "blocked" else 0
 
         return 2
     except (E2EProofError, OSError, ValueError) as error:

@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"control": "Source metadata requires cryptography>=50,<51 and clean local audit evidence exists.", "evidence": "Published v0.2.0 artifacts predate the corrected dependency lower bound.", "kind": "verified", "next_action": "Publish only through an explicit owner-approved security release.", "risk_id": "released-cryptography-range", "risk_level": "high", "summary": "Existing v0.2.0 installs may retain a vulnerable cryptography version."},
+    {"control": "Dependency review and local pip-audit remain required.", "evidence": "The repository alerts endpoint returned that Dependabot alerts are disabled.", "kind": "verified", "next_action": "The owner enables Dependabot alerts; engineering adds a recurring audit.", "risk_id": "dependabot-alerts-disabled", "risk_level": "medium", "summary": "Native dependency vulnerability alerts are unavailable."},
+    {"control": "Strict mypy remains enabled for every other package module.", "evidence": "e2eproof.cli and e2eproof.runner are explicitly quarantined in pyproject.toml.", "kind": "verified", "next_action": "Remove exclusions incrementally without reducing runtime coverage.", "risk_id": "partial-strict-typing", "risk_level": "medium", "summary": "Two large runtime modules remain outside strict mypy enforcement."},
+    {"control": "Autopilot stores summaries and structured measurements only.", "evidence": "Customer data sources are not connected in dry-run v1.", "kind": "verified", "next_action": "Threat-model retention and access before any hosted customer-data integration.", "risk_id": "customer-data-boundary", "risk_level": "high", "summary": "Future integrations could expose customer production data or personal information."}
+  ],
+  "schema_version": 1
+}

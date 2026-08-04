@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "acceptance_criteria": [
+        "A scheduled and manually dispatchable audit checks the resolved runtime dependency set.",
+        "The audit fails on a known vulnerability and uses read-only repository permissions.",
+        "Operator documentation explains its scope and limitations."
+      ],
+      "adoption_impact": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "Improves trust but is not a direct acquisition channel.", "value": 1},
+      "affected_area": "dependency security",
+      "confidence": {"basis": "verified", "evidence_ids": ["github.security_status", "local.dependency_state"], "note": "The missing recurring control is explicitly recorded in the operator backlog.", "value": 5},
+      "cooldown_cycles": 3,
+      "dependency_value": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "Restores continuous visibility while repository alerts are disabled.", "value": 5},
+      "effort": {"basis": "estimate", "evidence_ids": ["local.dependency_state"], "note": "One workflow, focused tests, and documentation are expected.", "value": 2},
+      "evidence_ids": ["github.security_status", "local.dependency_state"],
+      "objective": "Add a recurring dependency audit for vulnerable versions resolved from main.",
+      "policy_tags": [],
+      "requested_actions": ["modify_application_code", "open_or_merge_pull_request"],
+      "required_tests": ["workflow syntax and permission test", "pip-audit", "complete quality suite"],
+      "reversibility": {"basis": "estimate", "evidence_ids": ["local.dependency_state"], "note": "The isolated workflow is easy to disable through a reviewed change.", "value": 5},
+      "revenue_impact": {"basis": "hypothesis", "evidence_ids": ["github.security_status"], "note": "Security confidence may support pilots, but no revenue effect is verified.", "value": 0},
+      "risk": {"basis": "estimate", "evidence_ids": ["local.dependency_state"], "note": "Read-only scanning has low regression risk.", "value": 1},
+      "risk_level": "low",
+      "status": "queued",
+      "suggested_branch": "security/add-recurring-dependency-audit",
+      "task_id": "dependency-audit-recurring",
+      "urgency": {"basis": "verified", "evidence_ids": ["github.security_status"], "note": "Dependabot alerts are unavailable, leaving a known visibility gap.", "value": 5}
+    },
+    {
+      "acceptance_criteria": [
+        "The owner explicitly enables Dependabot vulnerability alerts in repository settings.",
+        "The alerts endpoint becomes readable without weakening another security control."
+      ],
+      "adoption_impact": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "Security posture may affect evaluator trust.", "value": 1},
+      "affected_area": "repository security settings",
+      "confidence": {"basis": "verified", "evidence_ids": ["github.security_status"], "note": "The alerts endpoint reports that Dependabot alerts are disabled.", "value": 5},
+      "cooldown_cycles": 6,
+      "dependency_value": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "Enables native vulnerability visibility and security updates.", "value": 5},
+      "effort": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "The owner setting is small but cannot be changed by dry-run Autopilot.", "value": 1},
+      "evidence_ids": ["github.security_status"],
+      "objective": "Enable Dependabot vulnerability alerts through an explicit owner action.",
+      "policy_tags": ["security_controls"],
+      "requested_actions": ["change_security_control"],
+      "required_tests": ["read-only alerts endpoint verification"],
+      "reversibility": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "The setting is reversible by the owner.", "value": 5},
+      "revenue_impact": {"basis": "hypothesis", "evidence_ids": ["github.security_status"], "note": "No direct revenue effect is verified.", "value": 0},
+      "risk": {"basis": "estimate", "evidence_ids": ["github.security_status"], "note": "Enabling a security control is low product risk but owner-governed.", "value": 1},
+      "risk_level": "low",
+      "status": "queued",
+      "suggested_branch": "owner-action/no-branch-required",
+      "task_id": "enable-dependabot-alerts",
+      "urgency": {"basis": "verified", "evidence_ids": ["github.security_status"], "note": "A security visibility control is currently disabled.", "value": 5}
+    },
+    {
+      "acceptance_criteria": [
+        "Release status documents match the public repository and v0.2.0 prerelease.",
+        "No PyPI or Marketplace availability claim is added without direct verification."
+      ],
+      "adoption_impact": {"basis": "estimate", "evidence_ids": ["github.release_state"], "note": "Accurate onboarding and release claims reduce evaluator confusion.", "value": 2},
+      "affected_area": "release documentation",
+      "confidence": {"basis": "verified", "evidence_ids": ["github.release_state", "local.repository"], "note": "Tracked documents and GitHub release state conflict.", "value": 5},
+      "cooldown_cycles": 3,
+      "dependency_value": {"basis": "estimate", "evidence_ids": ["github.release_state"], "note": "Accurate release truth is a prerequisite for distribution work.", "value": 3},
+      "effort": {"basis": "estimate", "evidence_ids": ["local.repository"], "note": "The work is documentation-only with verification.", "value": 1},
+      "evidence_ids": ["github.release_state", "local.repository"],
+      "objective": "Reconcile release documentation with the public v0.2.0 prerelease state.",
+      "policy_tags": [],
+      "requested_actions": ["modify_application_code", "open_or_merge_pull_request"],
+      "required_tests": ["static audit", "documentation claim review"],
+      "reversibility": {"basis": "estimate", "evidence_ids": ["local.repository"], "note": "Documentation edits are readily reversible.", "value": 5},
+      "revenue_impact": {"basis": "hypothesis", "evidence_ids": ["github.release_state"], "note": "Clear distribution claims may help adoption, with no verified revenue effect.", "value": 0},
+      "risk": {"basis": "estimate", "evidence_ids": ["local.repository"], "note": "Risk is limited to inaccurate wording.", "value": 1},
+      "risk_level": "low",
+      "status": "queued",
+      "suggested_branch": "docs/reconcile-release-status",
+      "task_id": "reconcile-release-documentation",
+      "urgency": {"basis": "verified", "evidence_ids": ["github.release_state"], "note": "Publicly stale claims undermine trust.", "value": 3}
+    },
+    {
+      "acceptance_criteria": [
+        "The five-tester experiment records only consented, observed outcomes.",
+        "No outreach is sent and no customer claim is made without owner authorization.",
+        "Activation, defects found, repeat use, and paid intent remain distinct metrics."
+      ],
+      "adoption_impact": {"basis": "hypothesis", "evidence_ids": ["business.validation_gates"], "note": "External validation could reveal onboarding barriers.", "value": 5},
+      "affected_area": "distribution experiment",
+      "confidence": {"basis": "hypothesis", "evidence_ids": ["business.validation_gates"], "note": "The experiment is defined but no outcome has been supplied.", "value": 2},
+      "cooldown_cycles": 8,
+      "dependency_value": {"basis": "estimate", "evidence_ids": ["business.validation_gates"], "note": "Evidence gates determine whether hosted product work is justified.", "value": 3},
+      "effort": {"basis": "estimate", "evidence_ids": ["business.validation_gates"], "note": "Recruitment and observation require human coordination.", "value": 4},
+      "evidence_ids": ["business.validation_gates"],
+      "objective": "Prepare the existing five-tester onboarding experiment without sending outreach.",
+      "policy_tags": [],
+      "requested_actions": ["generate_execution_brief"],
+      "required_tests": ["metric definition review", "privacy and unsupported-claim review"],
+      "reversibility": {"basis": "estimate", "evidence_ids": ["business.validation_gates"], "note": "A dry-run experiment plan can be revised before contact.", "value": 4},
+      "revenue_impact": {"basis": "hypothesis", "evidence_ids": ["business.validation_gates"], "note": "Paid-intent evidence could inform pilots, but none exists yet.", "value": 3},
+      "risk": {"basis": "estimate", "evidence_ids": ["business.validation_gates"], "note": "Privacy and outreach risk remain until an owner approves execution.", "value": 3},
+      "risk_level": "medium",
+      "status": "queued",
+      "suggested_branch": "ops/prepare-five-tester-experiment",
+      "task_id": "prepare-five-tester-experiment",
+      "urgency": {"basis": "estimate", "evidence_ids": ["business.validation_gates"], "note": "Validation is important but follows reliability work.", "value": 2}
+    }
+  ],
+  "schema_version": 1
+}

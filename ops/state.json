@@ -1,0 +1,9 @@
+{
+  "active_cycle": null,
+  "active_task": null,
+  "completed_cycle_ids": [],
+  "last_completed_at": null,
+  "recommendations": {},
+  "revision": 0,
+  "schema_version": 1
+}

@@ -1,0 +1,26 @@
+{
+  "approvals": [],
+  "budgets": {
+    "api_request_limit": 12,
+    "api_retries": 2,
+    "api_timeout_seconds": 10.0,
+    "lock_timeout_seconds": 5.0,
+    "model_call_limit": 0,
+    "process_timeout_seconds": 15.0,
+    "stale_lock_seconds": 900
+  },
+  "candidates": [],
+  "cycle_id": "local-dry-run-example",
+  "experiments": [],
+  "metrics": [],
+  "mode": "fake",
+  "observations": [
+    {"category": "ci", "evidence_url": "https://github.com/abubakarfaisal804-wq/e2eproof/actions", "kind": "verified", "observation_id": "github.ci_status", "observed_at": "2026-08-04T13:40:00Z", "source": "independently verified GitHub Actions state", "summary": "Required main checks were green at the recorded fixture point.", "value": {"head": "0cec0c99affcae2d52beeb0082b2d6d90fb21b19", "required_checks_green": true}},
+    {"category": "security", "evidence_url": "https://github.com/abubakarfaisal804-wq/e2eproof/security", "kind": "verified", "observation_id": "github.security_status", "observed_at": "2026-08-04T13:40:00Z", "source": "independently verified GitHub security APIs", "summary": "Code and secret scanning had no open alerts; Dependabot alerts were disabled.", "value": {"code_scanning_open": 0, "dependabot_alerts_available": false, "secret_scanning_open": 0}},
+    {"category": "release", "evidence_url": "https://github.com/abubakarfaisal804-wq/e2eproof/releases/tag/v0.2.0", "kind": "verified", "observation_id": "github.release_state", "observed_at": "2026-08-04T13:40:00Z", "source": "independently verified GitHub release state", "summary": "v0.2.0 was the only release and remained a prerelease.", "value": {"asset_downloads": 0, "prerelease": true, "tag": "v0.2.0"}},
+    {"category": "distribution", "evidence_url": null, "kind": "verified", "observation_id": "business.validation_gates", "observed_at": "2026-08-04T13:40:00Z", "source": "docs/BUSINESS_VALIDATION.md", "summary": "The repository defines evidence gates before hosted product investment; no external outcome is inferred by this fixture.", "value": {"paid_pilots_required": 3, "paid_intent_required": 5, "repositories_required": 20}}
+  ],
+  "outcomes": [],
+  "required_observation_categories": ["repository", "ci", "security", "dependencies", "release"],
+  "schema_version": 1
+}

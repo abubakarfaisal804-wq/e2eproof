@@ -1,0 +1,727 @@
+{
+  "$defs": {
+    "ActionCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Acceptance Criteria",
+          "type": "array"
+        },
+        "adoption_impact": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "affected_area": {
+          "maxLength": 120,
+          "minLength": 2,
+          "title": "Affected Area",
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "cooldown_cycles": {
+          "default": 2,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Cooldown Cycles",
+          "type": "integer"
+        },
+        "dependency_value": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "effort": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "objective": {
+          "maxLength": 500,
+          "minLength": 3,
+          "title": "Objective",
+          "type": "string"
+        },
+        "policy_tags": {
+          "items": {
+            "$ref": "#/$defs/PolicyTag"
+          },
+          "maxItems": 20,
+          "title": "Policy Tags",
+          "type": "array"
+        },
+        "requested_actions": {
+          "items": {
+            "$ref": "#/$defs/ActionKind"
+          },
+          "maxItems": 30,
+          "title": "Requested Actions",
+          "type": "array"
+        },
+        "required_tests": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Required Tests",
+          "type": "array"
+        },
+        "revenue_impact": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "reversibility": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "risk": {
+          "$ref": "#/$defs/ScoreComponent"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/RiskLevel"
+        },
+        "status": {
+          "$ref": "#/$defs/CandidateStatus",
+          "default": "queued"
+        },
+        "suggested_branch": {
+          "maxLength": 160,
+          "minLength": 3,
+          "title": "Suggested Branch",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "urgency": {
+          "$ref": "#/$defs/ScoreComponent"
+        }
+      },
+      "required": [
+        "task_id",
+        "objective",
+        "affected_area",
+        "evidence_ids",
+        "acceptance_criteria",
+        "suggested_branch",
+        "risk_level",
+        "revenue_impact",
+        "adoption_impact",
+        "urgency",
+        "confidence",
+        "effort",
+        "dependency_value",
+        "reversibility",
+        "risk"
+      ],
+      "title": "ActionCandidate",
+      "type": "object"
+    },
+    "ActionKind": {
+      "enum": [
+        "observe",
+        "score",
+        "persist_state",
+        "generate_execution_brief",
+        "run_read_only_checks",
+        "modify_application_code",
+        "open_or_merge_pull_request",
+        "send_email",
+        "deploy",
+        "publish_release",
+        "change_credentials",
+        "spend_money",
+        "change_pricing_or_billing",
+        "make_legal_commitment",
+        "access_customer_production_data",
+        "destructive_migration",
+        "change_security_control",
+        "force_push",
+        "rewrite_protected_history"
+      ],
+      "title": "ActionKind",
+      "type": "string"
+    },
+    "ApprovalDecision": {
+      "enum": [
+        "pending",
+        "approved",
+        "denied",
+        "expired"
+      ],
+      "title": "ApprovalDecision",
+      "type": "string"
+    },
+    "ApprovalRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "approval_id": {
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,99}$",
+          "title": "Approval Id",
+          "type": "string"
+        },
+        "decided_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decided At"
+        },
+        "decided_by": {
+          "maxLength": 160,
+          "minLength": 2,
+          "title": "Decided By",
+          "type": "string"
+        },
+        "decision": {
+          "$ref": "#/$defs/ApprovalDecision"
+        },
+        "evidence": {
+          "maxLength": 500,
+          "minLength": 2,
+          "title": "Evidence",
+          "type": "string"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "scopes": {
+          "items": {
+            "$ref": "#/$defs/PolicyTag"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Scopes",
+          "type": "array"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "approval_id",
+        "task_id",
+        "scopes",
+        "decision",
+        "decided_by",
+        "evidence"
+      ],
+      "title": "ApprovalRecord",
+      "type": "object"
+    },
+    "BudgetConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "api_request_limit": {
+          "default": 12,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Api Request Limit",
+          "type": "integer"
+        },
+        "api_retries": {
+          "default": 2,
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Api Retries",
+          "type": "integer"
+        },
+        "api_timeout_seconds": {
+          "default": 10.0,
+          "maximum": 60.0,
+          "minimum": 0.1,
+          "title": "Api Timeout Seconds",
+          "type": "number"
+        },
+        "lock_timeout_seconds": {
+          "default": 5.0,
+          "maximum": 60.0,
+          "minimum": 0.0,
+          "title": "Lock Timeout Seconds",
+          "type": "number"
+        },
+        "model_call_limit": {
+          "default": 0,
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Model Call Limit",
+          "type": "integer"
+        },
+        "process_timeout_seconds": {
+          "default": 15.0,
+          "maximum": 120.0,
+          "minimum": 0.1,
+          "title": "Process Timeout Seconds",
+          "type": "number"
+        },
+        "stale_lock_seconds": {
+          "default": 900,
+          "maximum": 86400,
+          "minimum": 30,
+          "title": "Stale Lock Seconds",
+          "type": "integer"
+        }
+      },
+      "title": "BudgetConfig",
+      "type": "object"
+    },
+    "CandidateStatus": {
+      "enum": [
+        "queued",
+        "active",
+        "completed",
+        "blocked",
+        "dismissed"
+      ],
+      "title": "CandidateStatus",
+      "type": "string"
+    },
+    "ExperimentRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "experiment_id": {
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,99}$",
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "hypothesis": {
+          "maxLength": 1000,
+          "minLength": 3,
+          "title": "Hypothesis",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "recorded_at": {
+          "format": "date-time",
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "status": {
+          "maxLength": 40,
+          "minLength": 2,
+          "title": "Status",
+          "type": "string"
+        },
+        "success_metric_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Success Metric Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "recorded_at",
+        "kind",
+        "status",
+        "hypothesis"
+      ],
+      "title": "ExperimentRecord",
+      "type": "object"
+    },
+    "FactKind": {
+      "enum": [
+        "verified",
+        "estimate",
+        "hypothesis"
+      ],
+      "title": "FactKind",
+      "type": "string"
+    },
+    "JsonValue": {},
+    "MetricRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "format": "date-time",
+          "title": "As Of",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "metric_id": {
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,99}$",
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 160,
+          "minLength": 2,
+          "title": "Name",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 160,
+          "minLength": 2,
+          "title": "Source",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 40,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "required": [
+        "metric_id",
+        "name",
+        "value",
+        "unit",
+        "kind",
+        "as_of",
+        "source"
+      ],
+      "title": "MetricRecord",
+      "type": "object"
+    },
+    "Observation": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "maxLength": 80,
+          "minLength": 2,
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence_url": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Url"
+        },
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "observation_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,149}$",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 160,
+          "minLength": 2,
+          "title": "Source",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        }
+      },
+      "required": [
+        "observation_id",
+        "observed_at",
+        "kind",
+        "category",
+        "source",
+        "summary"
+      ],
+      "title": "Observation",
+      "type": "object"
+    },
+    "OutcomeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "outcome_id": {
+          "pattern": "^[a-z0-9][a-z0-9._-]{2,99}$",
+          "title": "Outcome Id",
+          "type": "string"
+        },
+        "recorded_at": {
+          "format": "date-time",
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/OutcomeStatus"
+        },
+        "summary": {
+          "maxLength": 1000,
+          "minLength": 2,
+          "title": "Summary",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "outcome_id",
+        "task_id",
+        "recorded_at",
+        "status",
+        "kind",
+        "summary"
+      ],
+      "title": "OutcomeRecord",
+      "type": "object"
+    },
+    "OutcomeStatus": {
+      "enum": [
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "title": "OutcomeStatus",
+      "type": "string"
+    },
+    "PolicyTag": {
+      "enum": [
+        "spending",
+        "paid_infrastructure",
+        "credentials",
+        "secrets",
+        "pricing",
+        "billing",
+        "legal",
+        "customer_production_data",
+        "release",
+        "deployment",
+        "destructive_migration",
+        "branch_protection",
+        "security_controls",
+        "force_push",
+        "protected_history_rewrite"
+      ],
+      "title": "PolicyTag",
+      "type": "string"
+    },
+    "RiskLevel": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "RiskLevel",
+      "type": "string"
+    },
+    "ScoreComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "note": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "value": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Value",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "basis",
+        "evidence_ids",
+        "note"
+      ],
+      "title": "ScoreComponent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "approvals": {
+      "items": {
+        "$ref": "#/$defs/ApprovalRecord"
+      },
+      "maxItems": 100,
+      "title": "Approvals",
+      "type": "array"
+    },
+    "budgets": {
+      "$ref": "#/$defs/BudgetConfig"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/ActionCandidate"
+      },
+      "maxItems": 500,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "cycle_id": {
+      "anyOf": [
+        {
+          "maxLength": 160,
+          "minLength": 3,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cycle Id"
+    },
+    "experiments": {
+      "items": {
+        "$ref": "#/$defs/ExperimentRecord"
+      },
+      "maxItems": 100,
+      "title": "Experiments",
+      "type": "array"
+    },
+    "metrics": {
+      "items": {
+        "$ref": "#/$defs/MetricRecord"
+      },
+      "maxItems": 500,
+      "title": "Metrics",
+      "type": "array"
+    },
+    "mode": {
+      "default": "fake",
+      "pattern": "^fake$",
+      "title": "Mode",
+      "type": "string"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/Observation"
+      },
+      "maxItems": 500,
+      "title": "Observations",
+      "type": "array"
+    },
+    "outcomes": {
+      "items": {
+        "$ref": "#/$defs/OutcomeRecord"
+      },
+      "maxItems": 500,
+      "title": "Outcomes",
+      "type": "array"
+    },
+    "required_observation_categories": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Required Observation Categories",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": 1,
+      "maximum": 1,
+      "minimum": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    }
+  },
+  "title": "CycleInput",
+  "type": "object"
+}

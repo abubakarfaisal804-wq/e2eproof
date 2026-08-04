@@ -10,7 +10,7 @@ E2EProof executes the user flow, checks independent side effects, and writes a t
 
 ## Two-command proof
 
-After the package is published:
+Install from PyPI:
 
 ```bash
 python -m pip install e2eproof
@@ -50,7 +50,7 @@ A strong contract combines independent observations:
 
 ## GitHub Action
 
-Replace `abubakarfaisal804-wq` with the repository owner after publication:
+Add the published Action to your workflow:
 
 ```yaml
 name: outcome proof
@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: abubakarfaisal804-wq/e2eproof@v1
+      - uses: abubakarfaisal804-wq/e2eproof@v0.2.0
         with:
           contract: e2eproof.yaml
           browser: chromium
@@ -190,11 +190,18 @@ python -m ruff check .
 python -m mypy src/e2eproof
 ```
 
-The repository contains CI definitions for Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus real Chromium, Firefox, and WebKit browser-to-backend proofs. These jobs still need to run in the public repository before their status may be claimed as passing.
+Public CI covers Python 3.11–3.13 on Ubuntu, Windows, and macOS, plus Chromium, Firefox, and WebKit browser-to-backend proofs. Check the Actions page for the current status before relying on a platform-support claim.
 
 ## Current status
 
 E2EProof is an alpha developer tool, not a hosted SaaS and not a guarantee for every application. It requires an explicit contract and does not replace a complete security audit, accessibility audit, or human review.
+
+## Alpha testers
+
+E2EProof is recruiting five developers for an asynchronous onboarding test.
+Start with the [15-minute alpha guide](docs/ALPHA_TESTER_GUIDE.md), then submit
+an **Alpha test report** issue. Use only applications you own or are authorized
+to test, and never post secrets or production data.
 
 ## License
 

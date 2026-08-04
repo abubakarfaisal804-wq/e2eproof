@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-import os
-from pathlib import Path
-
 import pytest
 from playwright.sync_api import sync_playwright
 
@@ -30,15 +27,11 @@ def _contract(**policy: object) -> Contract:
 
 
 @pytest.mark.browser
-def test_accessibility_baseline_and_visible_marker() -> None:
+def test_accessibility_baseline_and_visible_marker(
+    chromium_launch_options: dict[str, object],
+) -> None:
     with sync_playwright() as playwright:
-        kwargs: dict[str, object] = {"headless": True}
-        browser_path = os.getenv("E2EPROOF_BROWSER_PATH")
-        if browser_path and Path(browser_path).is_file():
-            kwargs["executable_path"] = browser_path
-        if os.name != "nt" and hasattr(os, "geteuid") and os.geteuid() == 0:
-            kwargs["args"] = ["--no-sandbox"]
-        browser = playwright.chromium.launch(**kwargs)
+        browser = playwright.chromium.launch(**chromium_launch_options)
         page = browser.new_page()
         page.set_content(
             '<html lang="en"><head><title>x</title></head><body><label>Email<input></label><button>Save</button></body></html>'

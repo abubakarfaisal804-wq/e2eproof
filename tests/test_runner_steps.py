@@ -47,11 +47,9 @@ def run_step(raw: dict[str, Any], runtime: AttemptRuntime, c: Contract, client: 
 
 
 @pytest.mark.browser
-def test_browser_step_matrix(tmp_path: Path) -> None:
+def test_browser_step_matrix(tmp_path: Path, chromium_launch_options: dict[str, object]) -> None:
     with sync_playwright() as playwright, httpx.Client() as client:
-        browser = playwright.chromium.launch(
-            headless=True, executable_path="/usr/bin/chromium", args=["--no-sandbox"]
-        )
+        browser = playwright.chromium.launch(**chromium_launch_options)
         context = browser.new_context()
         page = context.new_page()
         page.set_content(
@@ -294,7 +292,7 @@ def test_browser_step_matrix(tmp_path: Path) -> None:
 
 
 @pytest.mark.browser
-def test_observers_and_policy_gates() -> None:
+def test_observers_and_policy_gates(chromium_launch_options: dict[str, object]) -> None:
     c = contract(
         fail_on_console_error=True,
         fail_on_page_error=True,
@@ -302,9 +300,7 @@ def test_observers_and_policy_gates() -> None:
         forbidden_network_markers=["mock response"],
     )
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            headless=True, executable_path="/usr/bin/chromium", args=["--no-sandbox"]
-        )
+        browser = playwright.chromium.launch(**chromium_launch_options)
         page = browser.new_page()
         state = RuntimeState(context_values={})
         _attach_observers(page, state, c, Redactor([]))

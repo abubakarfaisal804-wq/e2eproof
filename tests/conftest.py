@@ -8,12 +8,28 @@ from pathlib import Path
 import pytest
 
 from demo.server import serve
+from e2eproof.runner import find_browser_executable
 
 
 @pytest.fixture(scope="session", autouse=True)
 def browser_path() -> None:
-    if Path("/usr/bin/chromium").exists():
-        os.environ.setdefault("E2EPROOF_BROWSER_PATH", "/usr/bin/chromium")
+    configured = os.getenv("E2EPROOF_BROWSER_PATH")
+    if configured and Path(configured).is_file():
+        return
+    executable = find_browser_executable("chromium")
+    if executable:
+        os.environ["E2EPROOF_BROWSER_PATH"] = executable
+
+
+@pytest.fixture()
+def chromium_launch_options() -> dict[str, object]:
+    options: dict[str, object] = {"headless": True}
+    executable = os.getenv("E2EPROOF_BROWSER_PATH")
+    if executable and Path(executable).is_file():
+        options["executable_path"] = executable
+    if os.name != "nt" and hasattr(os, "geteuid") and os.geteuid() == 0:
+        options["args"] = ["--no-sandbox"]
+    return options
 
 
 @pytest.fixture()

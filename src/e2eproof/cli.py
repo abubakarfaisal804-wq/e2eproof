@@ -402,7 +402,9 @@ def main(argv: list[str] | None = None) -> int:
                 "files_checked": summary.files_checked,
                 "signature_present": summary.signature_present,
                 "signature_valid": summary.signature_valid,
-                "trusted_key_match": summary.trusted_key_match,
+                # Keep the public JSON key stable. The internal name describes the
+                # non-secret comparison result without implying that key material is logged.
+                "trusted_key_match": summary.expected_signer_match,
                 "event_chain_valid": summary.event_chain_valid,
                 "errors": summary.errors,
                 "warnings": summary.warnings,
